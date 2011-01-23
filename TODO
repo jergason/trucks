@@ -1,0 +1,6 @@
+1. Make sure non-admins cannot create users
+2. See how to test login and signup functionality
+3. Make /ajax path return a the price from the params
+
+
+1. Create models for Engine, Model, and Year and combination

@@ -29,8 +29,11 @@ get "/?" do
 end
 
 get "/ajax" do
+  pp request
+  pp env
   redirect "/" unless request.xhr?
-  haml :root
+  #@TODO: look up price
+
 end
 
 #show an admin form which allows creation of users

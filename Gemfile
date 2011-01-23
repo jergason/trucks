@@ -1,7 +1,7 @@
 source "http://rubygems.org"
 
 gem "sinatra"
-gem "sinatra-authentication"
+gem "sinatra-authentication", :path => "/Users/jergason/Dropbox/sinatra-authentication" #:git => "git://github.com/jergason/sinatra-authentication.git"
 gem "rspec"
 gem "rack-test"
 gem "rake"
@@ -13,5 +13,5 @@ gem "dm-aggregates"
 gem "dm-postgres-adapter"
 gem "dm-sqlite-adapter"
 gem "rack-flash"
-
+gem "awesome_print"
 

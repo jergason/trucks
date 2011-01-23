@@ -1,0 +1,10 @@
+%h1 HomePage
+#truck-form
+  %form{ :class => "vin-form", :action => "/lookup", :method => "POST"}
+    %label{ :for => "vin" } Input VIN
+    %br
+    %input{ :type => "text", :name => "vin" }
+    %br
+    %input{ :type => "submit" } Look up VIN
+
+

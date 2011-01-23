@@ -1,8 +1,22 @@
+PATH
+  remote: /Users/jergason/Dropbox/sinatra-authentication
+  specs:
+    sinatra-authentication (0.4.1)
+      dm-core
+      dm-migrations
+      dm-timestamps
+      dm-validations
+      rack-flash
+      rufus-tokyo
+      sinatra
+      sinbook
+
 GEM
   remote: http://rubygems.org/
   specs:
     activesupport (3.0.3)
     addressable (2.2.3)
+    awesome_print (0.3.1)
     data_objects (0.10.2)
       addressable (~> 2.1)
     diff-lcs (1.1.2)
@@ -60,15 +74,6 @@ GEM
     sinatra (1.1.2)
       rack (~> 1.1)
       tilt (~> 1.2)
-    sinatra-authentication (0.4.1)
-      dm-core
-      dm-migrations
-      dm-timestamps
-      dm-validations
-      rack-flash
-      rufus-tokyo
-      sinatra
-      sinbook
     sinbook (0.1.9)
       yajl-ruby
     tilt (1.2.2)
@@ -80,6 +85,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  awesome_print
   dm-aggregates
   dm-core
   dm-migrations
@@ -92,4 +98,4 @@ DEPENDENCIES
   rake
   rspec
   sinatra
-  sinatra-authentication
+  sinatra-authentication!

@@ -1,9 +1,9 @@
 module TruckPricer
-  class PriceFormula
+  class Price
     include DataMapper::Resource
 
     property :id, Serial, :key => true
-    property :formula, String
+    property :price, Float
 
     has 1, :truck_model
     has 1, :engine

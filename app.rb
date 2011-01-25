@@ -11,15 +11,12 @@ require 'rack-flash'
 require 'sinatra-authentication'
 
 set :environment, :test
-require './settings.rb'
+require 'settings'
 require 'truck_pricer'
-
 
 use Rack::Session::Cookie, :secret => "A1 sauce 1s so good you should use 1t on a11 yr st34ksssss"
 use Rack::Flash
 
-
-p settings
 
 before do
   #pp session
@@ -62,5 +59,13 @@ post "/create_user" do
     flash[:error] = "There were some problems creating the account: #{@user.errors}."
     redirect '/create_user?' + hash_to_query_string(params)
   end
+end
 
+#set the price for a combination
+post "/price_combination" do
+  redirect "/" unless request.xhr? or current_user.admin?
+  @fomrula = TruckPricer::PriceFormula.first_or_create(:engine_id => params[:engine_id],
+                                            :truck_model_id => params[:truck_model_id],
+                                            :year_id => params[:year_id])
+  @formula.price
 end

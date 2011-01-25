@@ -4,6 +4,6 @@ require 'dm-migrations'
 require 'models/engine'
 require 'models/truck_model'
 require 'models/year'
-require 'models/price_formula'
+require 'models/price'
 
 DataMapper.finalize

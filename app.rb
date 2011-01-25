@@ -1,19 +1,23 @@
+$LOAD_PATH.unshift File.dirname(__FILE__) unless $LOAD_PATH.include? File.dirname(__FILE__)
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), "lib") unless $LOAD_PATH.include? File.join(File.dirname(__FILE__), "lib")
 require 'bundler'
 Bundler.setup
 require 'sinatra'
 require 'dm-core'
 require 'dm-migrations'
+require 'dm-aggregates'
 require 'digest/sha1'
 require 'rack-flash'
 require 'sinatra-authentication'
-require 'pp'
 
 require './settings.rb'
+require 'truck_pricer'
 
 
 use Rack::Session::Cookie, :secret => "A1 sauce 1s so good you should use 1t on a11 yr st34ksssss"
 use Rack::Flash
 
+set :environment, :test
 
 before do
   #pp session
@@ -44,15 +48,14 @@ end
 
 post "/create_user" do
   redirect '/' unless current_user.admin?
-  params[:user][:password_confirmation] = params[:user][:password]
   if params[:permission_level]
     params[:user][:permission_level] = -1
   end
   @user = User.set(params[:user])
   if @user.valid && @user.id
     #session[:user] = @user.id
-    #flash[:notice] = "Account created."
-    #redirect '/create_user'
+    flash[:notice] = "Account created."
+    redirect '/create_user'
   else
     flash[:error] = "There were some problems creating the account: #{@user.errors}."
     redirect '/create_user?' + hash_to_query_string(params)

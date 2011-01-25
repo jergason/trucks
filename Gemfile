@@ -14,4 +14,5 @@ gem "dm-postgres-adapter"
 gem "dm-sqlite-adapter"
 gem "rack-flash"
 gem "awesome_print"
-
+gem "rack-test"
+gem "ruby-debug19"

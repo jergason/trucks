@@ -1,7 +1,6 @@
-#sinatra_authentication
-  - if Rack.const_defined?('Flash') && flash[:notice]
-    #sinatra_authentication_flash= flash[:notice]
+#create_user
   %h1.page_title Create A User
+  %p Their username and password will be emailed to them, along with a link to change it.
   %form{:action => "/create_user", :method => "post"}
     .field
       .label
@@ -10,10 +9,14 @@
     .field
       .label
         %label{:for => "user_password"} Password
-      %input{ :id => "user_password", :name => "user[password]", :size => 30, :type => "password" }
+      %input{ :id => "user_password", :name => "user[password]", :size => 30 }
     .field
       .label
-        %label{:for => "user_permissions"} Is Admin?
+        %label{:for => "user_password_confirmation"} Confirm Password
+      %input{ :id => "user_password_confirmation", :name => "user[password_confirmation]", :size => 30 }
+    .field
+      .label
+        %label{:for => "user_permissions"} Is this user an admin user?
       %input{ :type => "checkbox", :id => "user_permissions", :name => "permission_level", :selected => false }
     .buttons
-      %input{ :value => "Sign up", :type => "submit" }
+      %input{ :value => "Create user", :type => "submit" }

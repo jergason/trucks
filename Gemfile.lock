@@ -16,7 +16,9 @@ GEM
   specs:
     activesupport (3.0.3)
     addressable (2.2.3)
+    archive-tar-minitar (0.5.2)
     awesome_print (0.3.1)
+    columnize (0.3.2)
     data_objects (0.10.2)
       addressable (~> 2.1)
     diff-lcs (1.1.2)
@@ -47,6 +49,8 @@ GEM
     extlib (0.9.15)
     haml (3.0.25)
     i18n (0.5.0)
+    linecache19 (0.5.11)
+      ruby_core_source (>= 0.1.4)
     mail (2.2.14)
       activesupport (>= 2.3.6)
       i18n (>= 0.4.0)
@@ -70,6 +74,16 @@ GEM
     rspec-expectations (2.4.0)
       diff-lcs (~> 1.1.2)
     rspec-mocks (2.4.0)
+    ruby-debug-base19 (0.11.24)
+      columnize (>= 0.3.1)
+      linecache19 (>= 0.5.11)
+      ruby_core_source (>= 0.1.4)
+    ruby-debug19 (0.11.6)
+      columnize (>= 0.3.1)
+      linecache19 (>= 0.5.11)
+      ruby-debug-base19 (>= 0.11.19)
+    ruby_core_source (0.1.4)
+      archive-tar-minitar (>= 0.5.2)
     rufus-tokyo (1.0.7)
     sinatra (1.1.2)
       rack (~> 1.1)
@@ -97,5 +111,6 @@ DEPENDENCIES
   rack-test
   rake
   rspec
+  ruby-debug19
   sinatra
   sinatra-authentication!

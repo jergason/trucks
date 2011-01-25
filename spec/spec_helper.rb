@@ -7,3 +7,7 @@ set :environment, :test
 set :run, false
 set :raise_error, :true
 set :logging, :false
+
+DataMapper::Logger.new($stdout, :debug)
+puts "settings.db_path is #{settings.db_path}"
+DataMapper.setup(:default, settings.db_path)

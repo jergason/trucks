@@ -8,10 +8,7 @@ end
 namespace :db do
 
   task :require do
-    require "sinatra"
     require "./app.rb"
-    require "./settings.rb"
-    require "dm-migrations"
   end
 
   desc "create the if it doesn't exist and run DataMapper.auto_migrate! to update the schema.
@@ -21,7 +18,8 @@ namespace :db do
   end
 
   task :create do
-    `sqlite3 trucks.db ''`
+    `sqlite3 db/test.db ''`
+    `sqlite3 db/development.db ''`
   end
 
   desc "create the tables to match schema, wiping out existing tables"

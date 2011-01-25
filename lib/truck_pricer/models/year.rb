@@ -1,5 +1,5 @@
 module TruckPricer
-  class Engine < TruckPricer::Model
+  class Year < TruckPricer::Model
     #include DataMapper::Resource
 
     #property :id, Serial, :key => true
@@ -8,7 +8,7 @@ module TruckPricer
     #property :created_on, DateTime, :default => lambda { |r, p| Time.now }
     #property :updated_on, DateTime, :default => lambda { |r, p| Time.now }
 
-   #belongs_to :price_formula, :model => 'TruckPricer::PriceFormula', :required => false 
+
     #before :save do
       #update_on = Time.now
     #end

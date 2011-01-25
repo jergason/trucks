@@ -1,6 +1,5 @@
 #Settings for application
 require 'dm-core'
-require 'dm-aggregates'
 
 configure :test do
   set :db_path, 'sqlite:///Users/jergason/Dropbox/warner_trucks/db/test.db'

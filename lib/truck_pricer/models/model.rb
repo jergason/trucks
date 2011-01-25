@@ -9,7 +9,7 @@ module TruckPricer
     property :updated_on, DateTime, :default => lambda { |r, p| Time.now }
 
     belongs_to :price_formula, :required => false
-    
+
     before :save do
       update_on = Time.now
     end

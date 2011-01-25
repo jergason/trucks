@@ -1,3 +1,5 @@
+require 'dm-serializer'
+
 module TruckPricer
   class Price
     include DataMapper::Resource
@@ -5,8 +7,8 @@ module TruckPricer
     property :id, Serial, :key => true
     property :price, Float
 
-    has 1, :truck_model
-    has 1, :engine
-    has 1, :year
+    belongs_to :truck_model, :required => false
+    belongs_to :engine, :required => false
+    belongs_to :year, :required => false
   end
 end

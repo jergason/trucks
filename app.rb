@@ -31,13 +31,6 @@ get "/?" do
   end
 end
 
-get "/ajax" do
-  pp request
-  pp env
-  redirect "/" unless request.xhr?
-  #@TODO: look up price
-
-end
 
 #show an admin form which allows creation of users
 get "/create_user" do
@@ -61,11 +54,32 @@ post "/create_user" do
   end
 end
 
+get "/price" do
+  #redirect "/" unless request.xhr?
+  @price = TruckPricer::Price.first(:truck_model_id => params[:truck_model],
+                                    :engine_id => params[:engine],
+                                    :year => params[:year])
+  if @price
+    @price.to_json
+  else
+    ret = { :msg => "no truck found", :price => "0.00" }
+    ret.to_json
+  end
+end
+
 #set the price for a combination
-post "/price_combination" do
-  redirect "/" unless request.xhr? or current_user.admin?
-  @fomrula = TruckPricer::PriceFormula.first_or_create(:engine_id => params[:engine_id],
+post "/price" do
+  #@TODO: only xhr requests?
+  redirect "/" unless current_user.admin?
+  @price = TruckPricer::Price.first_or_create(:engine_id => params[:engine_id],
                                             :truck_model_id => params[:truck_model_id],
                                             :year_id => params[:year_id])
-  @formula.price
+  @price.price = params[:price]
+  if @price.save
+    flash[:success] = "Price saved."
+    return flash[:success]
+  else
+    flash[:error] = "Error in saving price"
+    return flash[:error]
+  end
 end

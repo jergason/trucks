@@ -47,4 +47,34 @@ namespace :db do
       puts "error creating user!"
     end
   end
+
+  desc "Populate database withs some seed data."
+  task :populate => :require do
+    TruckPricer::TruckModel.create(:name => "Century", :vin_string => "B")
+    TruckPricer::TruckModel.create(:name => "Cascadia", :vin_string => "G")
+    TruckPricer::Engine.create(:name => "Series 60", :vin_string => "C")
+    TruckPricer::Engine.create(:name => "DD15", :vin_string => "D")
+    TruckPricer::Year.create(:name => "2000", :vin_string => "0")
+    TruckPricer::Year.create(:name => "2001", :vin_string => "1")
+    TruckPricer::Year.create(:name => "2002", :vin_string => "2")
+    TruckPricer::Year.create(:name => "2003", :vin_string => "3")
+    TruckPricer::Year.create(:name => "2004", :vin_string => "4")
+    TruckPricer::Year.create(:name => "2005", :vin_string => "5")
+    TruckPricer::Year.create(:name => "2006", :vin_string => "6")
+    TruckPricer::Year.create(:name => "2007", :vin_string => "7")
+    TruckPricer::Year.create(:name => "2008", :vin_string => "8")
+    TruckPricer::Year.create(:name => "2009", :vin_string => "9")
+    TruckPricer::Year.create(:name => "2010", :vin_string => "A")
+    TruckPricer::Year.create(:name => "2011", :vin_string => "B")
+    TruckPricer::Year.create(:name => "2012", :vin_string => "C")
+    TruckPricer::Year.create(:name => "2013", :vin_string => "D")
+    TruckPricer::Year.create(:name => "2014", :vin_string => "E")
+    TruckPricer::Year.create(:name => "2015", :vin_string => "F")
+    TruckPricer::Year.create(:name => "2016", :vin_string => "G")
+    TruckPricer::Year.create(:name => "2017", :vin_string => "H")
+    TruckPricer::Price.create(:engine_id => 1, :year_id => 1, :truck_model_id => 2, :price => 10.00)
+  end
+
+  desc "Drop db and repopulate it"
+  task :repop => [:require, :migrate, :populate]
 end

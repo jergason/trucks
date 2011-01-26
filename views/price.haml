@@ -1,0 +1,19 @@
+#price_form
+  %form{ :action => "" }
+    .field
+      .label
+        %label{ :for => "truck_model"} Truck Model
+      = select_tag :truck_model, :id => "truck_model", :options => @truck_model_options
+    .field
+      .label
+        %label{ :for => "engine"} Engine
+      = select_tag :engine, :id => "engine", :options => @engine_options
+    .field
+      .label
+        %label{ :for => "year"} Year
+      = select_tag :year, :id => "year", :options => @year_options
+    .field
+      .label
+        %label{ :for => "price"} Year
+      = text_field :price, :id => "price", :default => ""
+    = submit_tag "Set Price"

@@ -9,5 +9,6 @@ configure :development do
   set :db_path, 'sqlite:///Users/jergason/Dropbox/warner_trucks/db/development.db'
 end
 
+set :environment, :development
 DataMapper::Logger.new($stdout, :default)
 DataMapper.setup(:default, ENV['DATABASE_URL'] || settings.db_path)

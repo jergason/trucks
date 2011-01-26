@@ -9,37 +9,32 @@ require 'dm-aggregates'
 require 'digest/sha1'
 require 'rack-flash'
 require 'sinatra-authentication'
+require 'padrino-helpers'
 
-set :environment, :test
 require 'settings'
 require 'truck_pricer'
 
 use Rack::Session::Cookie, :secret => "A1 sauce 1s so good you should use 1t on a11 yr st34ksssss"
 use Rack::Flash
-
-
-before do
-  #pp session
-  #pp env
-end
+helpers Padrino::Helpers
+helpers TruckPricer::Helpers
 
 get "/?" do
   if !logged_in?
-    redirect "/login"
+    redirect "/login", 303
   else
     haml :root
   end
 end
 
-
 #show an admin form which allows creation of users
 get "/create_user" do
-  redirect "/" unless current_user.admin?
+  redirect "/", 303 unless current_user.admin?
   haml :create_user
 end
 
 post "/create_user" do
-  redirect '/' unless current_user.admin?
+  redirect '/', 303 unless current_user.admin?
   if params[:permission_level]
     params[:user][:permission_level] = -1
   end
@@ -50,20 +45,27 @@ post "/create_user" do
     redirect '/create_user'
   else
     flash[:error] = "There were some problems creating the account: #{@user.errors}."
-    redirect '/create_user?' + hash_to_query_string(params)
+    redirect '/create_user?' + hash_to_query_string(params), 303
   end
 end
 
 get "/price" do
-  #redirect "/" unless request.xhr?
-  @price = TruckPricer::Price.first(:truck_model_id => params[:truck_model],
-                                    :engine_id => params[:engine],
-                                    :year => params[:year])
-  if @price
-    @price.to_json
+  redirect "/", 303 unless current_user.admin?
+  if request.xhr?
+    @price = TruckPricer::Price.first(:truck_model_id => params[:truck_model],
+                                      :engine_id => params[:engine],
+                                      :year => params[:year])
+    if @price
+      @price.to_json
+    else
+      ret = { :msg => "no truck found", :price => "0.00" }
+      ret.to_json
+    end
   else
-    ret = { :msg => "no truck found", :price => "0.00" }
-    ret.to_json
+    @truck_model_options = options_array TruckPricer::TruckModel.all
+    @engine_options = options_array TruckPricer::Engine.all
+    @year_options = options_array TruckPricer::Year.all
+    haml :price
   end
 end
 
@@ -77,9 +79,12 @@ post "/price" do
   @price.price = params[:price]
   if @price.save
     flash[:success] = "Price saved."
-    return flash[:success]
   else
     flash[:error] = "Error in saving price"
-    return flash[:error]
+  end
+  if request.xhr?
+    return "HURP DE DURP"
+  else
+    redirect "/price"
   end
 end

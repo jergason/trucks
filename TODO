@@ -3,4 +3,5 @@
 3. Make /ajax path return a the price from the params
 
 
-1. Create models for Engine, Model, and Year and combination
+1. Implement email functionality (admin control for changing it as well)
+2. Implement RESTful interface for truck models, engines, years to create new ones.

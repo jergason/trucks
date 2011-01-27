@@ -1,19 +1,31 @@
+:javascript
+  $(function () {
+    //Make sure getTruckPrice and setTruckPrice use TruckPricer for tier function context
+    // so calls inside them to this.makeRequestParams() work as expected. I am sure
+    // that there is a better way to do this, but don't know how.
+    $("select", "#price_form").change(function(event) {
+      TruckPricer.getTruckPrice.call(TruckPricer, event)
+    });
+    $("#price_form").submit(function (event) {
+      TruckPricer.setTruckPrice.call(TruckPricer, event);
+    });
+  });
 #price_form
-  %form{ :action => "" }
+  %form{ :action => "", :id => "price_form"}
     .field
       .label
-        %label{ :for => "truck_model"} Truck Model
+        = label_tag :truck_model
       = select_tag :truck_model, :id => "truck_model", :options => @truck_model_options
     .field
       .label
-        %label{ :for => "engine"} Engine
+        = label_tag :engine
       = select_tag :engine, :id => "engine", :options => @engine_options
     .field
       .label
-        %label{ :for => "year"} Year
+        = label_tag :year
       = select_tag :year, :id => "year", :options => @year_options
     .field
       .label
-        %label{ :for => "price"} Year
-      = text_field :price, :id => "price", :default => ""
+        = label_tag :price
+      = text_field_tag :price, :id => "price", :placeholder => "One billion dollars"
     = submit_tag "Set Price"

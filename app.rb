@@ -50,15 +50,16 @@ post "/create_user" do
 end
 
 get "/price" do
-  redirect "/", 303 unless current_user.admin?
+  #redirect "/", 303 unless current_user.admin?
   if request.xhr?
     @price = TruckPricer::Price.first(:truck_model_id => params[:truck_model],
                                       :engine_id => params[:engine],
                                       :year => params[:year])
     if @price
-      @price.to_json
+      ret = { :message => "Here is the price for the truck!", :price => @price.price, :error => false }
+      ret.to_json
     else
-      ret = { :msg => "no truck found", :price => "0.00" }
+      ret = { :message => "no truck found", :error => true }
       ret.to_json
     end
   else
@@ -69,7 +70,6 @@ get "/price" do
   end
 end
 
-#set the price for a combination
 post "/price" do
   #@TODO: only xhr requests?
   redirect "/" unless current_user.admin?

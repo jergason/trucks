@@ -23,5 +23,6 @@ group :production do
 end
 
 group :development, :test do
+  gem "sinatra-reloader", :require => "sinatra/reloader"
   gem "dm-sqlite-adapter"
 end

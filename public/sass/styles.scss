@@ -51,48 +51,11 @@ body {
   padding: 0px 10px;
 }
 
-.error, .notice, .warning, .success {
-  margin-bottom: 1em;
-  padding: 0.8em;
-  border: {
-    style: solid;
-    width: 1px;
-    color: #ddd;
+#vin-form {
+  .submit {
+    display: inline;
   }
 }
 
-$success_background: #e6efc2;
-$success_text: #529214;
-$success_border: #c6d880;
-.success {
-  background-color: $success_background;
-  color: $success_text;
-  border: {
-    color: $success_border;
-  }
-}
-
-$error-background: #fbe3e4;
-$error-border: #fbc2c4;
-$error-text: #d12f19;
-
-.error {
-  background: $error_background;
-  border-color: $error_border;
-  color: $error_text; 
-  a {
-  color: $error_text;
-  }
-}
-
-$notice-background: #fff6bf;
-$notice-border: #ffd324;
-$notice-text: #817134;
-.notice {
-  background: $notice_background;
-  border-color: $notice_border;
-  color: $notice_text; 
-  a {
-  color: $notice_text;
-  }
-}
+@import "flash";
+@import "forms";

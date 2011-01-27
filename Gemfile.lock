@@ -1,5 +1,6 @@
-PATH
-  remote: /Users/jergason/Dropbox/sinatra-authentication
+GIT
+  remote: git://github.com/jergason/sinatra-authentication.git
+  revision: a82d93024e19cc67f3b537096c72a6dc2010b4de
   specs:
     sinatra-authentication (0.4.1)
       dm-core

@@ -1,13 +1,5 @@
 $LOAD_PATH.unshift File.dirname(__FILE__) unless $LOAD_PATH.include? File.dirname(__FILE__)
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), "lib") unless $LOAD_PATH.include? File.join(File.dirname(__FILE__), "lib")
-require 'sinatra'
-require 'dm-core'
-require 'dm-migrations'
-require 'dm-aggregates'
-require 'digest/sha1'
-require 'rack-flash'
-require 'sinatra-authentication'
-require 'padrino-helpers'
 
 require 'settings'
 require 'truck_pricer'

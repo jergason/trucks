@@ -1,8 +1,6 @@
 $LOAD_PATH.unshift File.dirname(__FILE__) unless $LOAD_PATH.include? File.dirname(__FILE__)
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), "lib") unless $LOAD_PATH.include? File.join(File.dirname(__FILE__), "lib")
 require 'sinatra'
-require 'bundler'
-Bundler.setup
 require 'dm-core'
 require 'dm-migrations'
 require 'dm-aggregates'
@@ -10,12 +8,11 @@ require 'digest/sha1'
 require 'rack-flash'
 require 'sinatra-authentication'
 require 'padrino-helpers'
-require 'pp'
 
 require 'settings'
 require 'truck_pricer'
 
-use Rack::Session::Cookie, :secret => "A1 sauce 1s so good you should use 1t on a11 yr st34ksssss"
+use Rack::Session::Cookie, :secret => "What good is a secret key if it doesn't have some gibberish@@#AKGHFKAA?"
 use Rack::Flash
 helpers Padrino::Helpers
 helpers TruckPricer::Helpers

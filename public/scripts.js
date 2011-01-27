@@ -18,7 +18,7 @@ var TruckPricer = {
   },
 
   getTruckPrice : function(event) {
-    $("#message").clear();
+    $("#message").text("");
     var request = this.makeRequestParams();
     $.get("/price", request, function(response) {
       if (response.error === false) {

@@ -16,6 +16,7 @@ GEM
   specs:
     activesupport (3.0.3)
     addressable (2.2.3)
+    backports (1.18.2)
     configuration (1.2.0)
     data_objects (0.10.2)
       addressable (~> 2.1)
@@ -70,6 +71,8 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.16)
+    monkey-lib (0.5.4)
+      backports
     padrino-core (0.9.20)
       activesupport (>= 3.0.0)
       http_router (~> 0.5.0)
@@ -102,6 +105,16 @@ GEM
     sinatra (1.1.2)
       rack (~> 1.1)
       tilt (~> 1.2)
+    sinatra-advanced-routes (0.5.1)
+      monkey-lib (~> 0.5.0)
+      sinatra (~> 1.0)
+      sinatra-sugar (~> 0.5.0)
+    sinatra-reloader (0.5.0)
+      sinatra (~> 1.0)
+      sinatra-advanced-routes (~> 0.5.0)
+    sinatra-sugar (0.5.0)
+      monkey-lib (~> 0.5.0)
+      sinatra (~> 1.0)
     sinbook (0.1.9)
       yajl-ruby
     thor (0.14.6)
@@ -133,3 +146,4 @@ DEPENDENCIES
   rspec
   sinatra
   sinatra-authentication!
+  sinatra-reloader

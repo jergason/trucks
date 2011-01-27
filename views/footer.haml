@@ -1,11 +1,12 @@
-- if !production?
-  %h3 env
-  %pre
-    = env
-  %h3 request
-  %pre
-    = request
-  %h3 params
-  %pre
-    = params
+#footer
+  - if !production?
+    %h3 env
+    %pre
+      = env
+    %h3 request
+    %pre
+      = request
+    %h3 params
+    %pre
+      = params
 

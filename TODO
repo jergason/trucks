@@ -1,8 +1,8 @@
-1. Make sure non-admins cannot create users
-2. See how to test login and signup functionality
-3. Make /ajax path return a the price from the params
+1. See how to test login and signup functionality
+2. Add more tests
 
 
-1. Implement email functionality (admin control for changing it as well)
-2. Implement RESTful interface for truck models, engines, years to create new ones.
+0. Make a purty layout
+1. Implement RESTful interface for truck models, engines, years to create new ones.
+2. Implement email functionality (admin control for changing it as well)
 3. Password reset functionality?

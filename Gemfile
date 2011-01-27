@@ -1,9 +1,6 @@
 source "http://rubygems.org"
 
 gem "sinatra"
-gem "heroku"
-gem "rspec"
-gem "rack-test"
 gem "rake"
 gem "haml"
 gem "padrino-helpers"
@@ -11,9 +8,20 @@ gem "pony"
 gem "dm-core"
 gem "dm-migrations"
 gem "dm-aggregates"
-gem "dm-postgres-adapter"
-gem "dm-sqlite-adapter"
 gem "dm-serializer"
 gem "sinatra-authentication", :git => "git://github.com/jergason/sinatra-authentication.git"#:path => "/Users/jergason/Dropbox/sinatra-authentication"
 gem "rack-flash"
-gem "rack-test"
+
+group :test do
+  gem "rspec"
+  gem "rack-test"
+end
+
+group :production do
+  gem "heroku"
+  gem "dm-postgres-adapter"
+end
+
+group :development, :test do
+  gem "dm-sqlite-adapter"
+end

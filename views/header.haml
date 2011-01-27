@@ -1,9 +1,18 @@
 #header
   %h1 Truck Pricer
   %ul#menu
-    %li
-      %a{ :href => "/calendar" } Calendar
-    %li
-      %a{ :href => "/scheduler" } Schedule A Time
-    %li
-      %a{ :href => "/submissions" } Queue
+    - if logged_in?
+      %li
+        %a{ :href => "/logout" } Log Out
+    - if current_user.admin?
+      %li
+        %a{ :href => "/price" } Edit Truck Prices
+      %li
+        %a{ :href => "/create_user" } Create Users
+      %li
+        %a{ :href => "/truck_models" } List Truck Models
+      %li
+        %a{ :href => "/engines" } List Engines
+      %li
+        %a{ :href => "/years" } List Years
+

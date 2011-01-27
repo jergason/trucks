@@ -34,7 +34,7 @@ body {
           color: #4a5a73; }
 
 #content {
-  padding: 0px 5px; }
+  padding: 0px 10px; }
 
 .error, .notice, .warning, .success {
   margin-bottom: 1em;
@@ -48,5 +48,16 @@ body {
   color: #529214;
   border-color: #c6d880; }
 
-#signup_form em {
-  color: red; }
+.error {
+  background: #fbe3e4;
+  border-color: #fbc2c4;
+  color: #d12f19; }
+  .error a {
+    color: #d12f19; }
+
+.notice {
+  background: #fff6bf;
+  border-color: #ffd324;
+  color: #817134; }
+  .notice a {
+    color: #817134; }

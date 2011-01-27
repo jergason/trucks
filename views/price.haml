@@ -6,26 +6,30 @@
     $("select", "#price_form").change(function(event) {
       TruckPricer.getTruckPrice.call(TruckPricer, event)
     });
-    $("#price_form").submit(function (event) {
+
+    $("#price_submit").click(function (event) {
+      //@TODO: validation here
       TruckPricer.setTruckPrice.call(TruckPricer, event);
     });
   });
+
 #price_form
-  %form{ :action => "", :id => "price_form"}
+  %form{ :id => "price_form" }
     .field
       .label
-        = label_tag :truck_model
-      = select_tag :truck_model, :id => "truck_model", :options => @truck_model_options
+        = label_tag :truck_model_id
+      = select_tag :truck_model_id, :id => "truck_model", :options => @truck_model_options
     .field
       .label
-        = label_tag :engine
-      = select_tag :engine, :id => "engine", :options => @engine_options
+        = label_tag :engine_id
+      = select_tag :engine_id, :id => "engine", :options => @engine_options
     .field
       .label
-        = label_tag :year
-      = select_tag :year, :id => "year", :options => @year_options
+        = label_tag :year_id
+      = select_tag :year_id, :id => "year", :options => @year_options
     .field
       .label
         = label_tag :price
       = text_field_tag :price, :id => "price", :placeholder => "One billion dollars"
-    = submit_tag "Set Price"
+    = submit_tag "Set Price", :id => "price_submit"
+  #message

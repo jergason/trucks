@@ -11,9 +11,9 @@ namespace :db do
     require "./app.rb"
   end
 
-  desc "create the if it doesn't exist and run DataMapper.auto_migrate! to update the schema.
-  Create an admin user j@a.com password"
-  task :init => [:require, :create, :migrate] do
+  desc "create the database if it doesn't exist and run DataMapper.auto_migrate! to update the schema.
+  Create an admin user j@a.com password and populate with default data"
+  task :init => [:require, :create, :migrate, :populate] do
     Rake.application.invoke_task("db:create_admin[j@a.com,password]")
   end
 
@@ -22,7 +22,7 @@ namespace :db do
     `sqlite3 db/development.db ''`
   end
 
-  desc "create the tables to match schema, wiping out existing tables"
+  desc "create the tables to match schema"
   task :migrate => :require do
     DataMapper.auto_migrate!
   end
@@ -44,7 +44,7 @@ namespace :db do
     }
     @res = User.set(params)
     unless @res.valid && @res.id && @res.permission_level == -1
-      puts "error creating user!"
+      puts "error creating user: #{@res.errors}"
     end
   end
 
@@ -72,7 +72,6 @@ namespace :db do
     TruckPricer::Year.create(:name => "2015", :vin_string => "F")
     TruckPricer::Year.create(:name => "2016", :vin_string => "G")
     TruckPricer::Year.create(:name => "2017", :vin_string => "H")
-    TruckPricer::Price.create(:engine_id => 1, :year_id => 1, :truck_model_id => 2, :price => 10.00)
   end
 
   desc "Drop db and repopulate it"

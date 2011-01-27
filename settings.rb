@@ -2,11 +2,11 @@
 require 'dm-core'
 
 configure :test do
-  set :db_path, 'sqlite:///Users/jergason/Dropbox/warner_trucks/db/test.db'
+  set :db_path, "sqlite://#{File.join(File.dirname(__FILE__), 'db', 'test.db')}"
 end
 
 configure :development do
-  set :db_path, 'sqlite:///Users/jergason/Dropbox/warner_trucks/db/development.db'
+  set :db_path, "sqlite://#{File.join(File.dirname(__FILE__), 'db', 'development.db')}"
 end
 
 set :environment, :development

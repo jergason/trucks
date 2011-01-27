@@ -7,7 +7,7 @@
     %title Vin Decoder
   %body
     #container
-      #header
+      = haml :header, :layout => false
       #content
         - if flash[:error]
           .error
@@ -20,3 +20,4 @@
             = flash[:success]
         = yield
 
+      = haml :footer, :layout => false

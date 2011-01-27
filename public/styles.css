@@ -36,6 +36,9 @@ body {
 #content {
   padding: 0px 10px; }
 
+#vin-form .submit {
+  display: inline; }
+
 .error, .notice, .warning, .success {
   margin-bottom: 1em;
   padding: 0.8em;

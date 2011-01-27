@@ -7,14 +7,17 @@
       TruckPricer.getTruckPrice.call(TruckPricer, event)
     });
 
-    $("#price_submit").click(function (event) {
+    //Hide the submit button so they can't use it if Javascript is enabled
+    //$("#price_submit").click(function (event) {
       //@TODO: validation here
-      TruckPricer.setTruckPrice.call(TruckPricer, event);
-    });
+      //TruckPricer.setTruckPrice.call(TruckPricer, event);
+    //});
+
+    TruckPricer.getTruckPrice.call(TruckPricer);
   });
 
 #price_form
-  %form{ :id => "price_form" }
+  %form{ :id => "price_form", :method => "POST", :action => "/price" }
     .field
       .label
         = label_tag :truck_model_id
@@ -27,9 +30,9 @@
       .label
         = label_tag :year_id
       = select_tag :year_id, :id => "year", :options => @year_options
+    #message
     .field
       .label
         = label_tag :price
       = text_field_tag :price, :id => "price", :placeholder => "One billion dollars"
     = submit_tag "Set Price", :id => "price_submit"
-  #message

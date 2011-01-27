@@ -58,14 +58,12 @@ get "/price" do
     if request.xhr?
       @price = TruckPricer::Price.first(:truck_model_id => params[:truck_model_id],
                                         :engine_id => params[:engine_id],
-                                        :year => params[:year_id])
-      puts "**In get /price and @price is: "
-      pp @price
+                                        :year_id => params[:year_id])
       if @price
         ret = { :message => "Here is the price for the truck!", :price => @price.price, :error => false }
         ret.to_json
       else
-        ret = { :message => "no truck found", :error => true }
+        ret = { :message => "No price yet for this truck, engine and year combination.", :error => true }
         ret.to_json
       end
     else
@@ -78,22 +76,31 @@ get "/price" do
 end
 
 post "/price" do
-  #@TODO: only xhr requests?
   puts "inside post /price"
+  puts "*****here is the session: "
+  pp session
   unless current_user.admin?
     flash[:notice] = "You must be logged in to view that page."
     redirect "/", 303
   end
-  puts "********* Here are the params: "
   @price = TruckPricer::Price.first_or_create(:engine_id => params[:engine_id],
-                                            :truck_model_id => params[:truck_model_id],
-                                            :year_id => params[:year_id])
+                                              :truck_model_id => params[:truck_model_id],
+                                              :year_id => params[:year_id])
   @price.price = params[:price]
-  if @price.save
-    ret = { :message => "Price saved successfully.", :error => false }
+  res = @price.save
+  if request.xhr?
+    if res
+      ret = { :message => "Price saved successfully.", :error => false }
+    else
+      ret = { :message => "Errors in saving the price: #{@price.errors}", :error => true }
+    end
+    ret.to_json
   else
-    ret = { :message => "Errors in saving the price: #{@price.errors}", :error => true }
+    if res
+      flash[:success] = "Price saved successfully"
+    else
+      flash[:error] = "Error in saving the price: #{@price.errors}"
+    end
+    redirect "/price", 303
   end
-    #haml :price
-  ret.to_json
 end

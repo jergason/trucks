@@ -18,10 +18,14 @@ var TruckPricer = {
   },
 
   getTruckPrice : function(event) {
+    $("#message").clear();
     var request = this.makeRequestParams();
     $.get("/price", request, function(response) {
       if (response.error === false) {
         $("[name='price']").val(response.price);
+      }
+      else {
+        $("[name='price']").val("No price yet");
       }
       $("#message").text(response.message);
     }, "json");

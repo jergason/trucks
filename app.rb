@@ -39,7 +39,7 @@ post "/create_user" do
     @user = User.set(params[:user])
     if @user.valid && @user.id
       #session[:user] = @user.id
-      flash[:notice] = "Account created."
+      flash[:success] = "Account created."
       redirect '/create_user'
     else
       flash[:error] = "There were some problems creating the account: #{@user.errors}."
@@ -97,7 +97,7 @@ post "/price" do
     ret.to_json
   else
     if res
-      flash[:success] = "Price saved successfully"
+      flash[:success] = "Price saved successfully."
     else
       flash[:error] = "Error in saving the price: #{@price.errors}"
     end

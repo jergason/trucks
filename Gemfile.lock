@@ -16,6 +16,7 @@ GEM
   specs:
     activesupport (3.0.3)
     addressable (2.2.3)
+    configuration (1.2.0)
     data_objects (0.10.2)
       addressable (~> 2.1)
     diff-lcs (1.1.2)
@@ -50,11 +51,19 @@ GEM
     extlib (0.9.15)
     fastercsv (1.5.4)
     haml (3.0.25)
+    heroku (1.17.10)
+      json (~> 1.4.6)
+      launchy (~> 0.3.2)
+      rest-client (>= 1.4.0, < 1.7.0)
     http_router (0.5.2)
       rack (>= 1.0.0)
       url_mount (~> 0.2.1)
     i18n (0.5.0)
+    json (1.4.6)
     json_pure (1.5.0)
+    launchy (0.3.7)
+      configuration (>= 0.0.5)
+      rake (>= 0.8.1)
     mail (2.2.14)
       activesupport (>= 2.3.6)
       i18n (>= 0.4.0)
@@ -79,6 +88,8 @@ GEM
     rack-test (0.5.7)
       rack (>= 1.0)
     rake (0.8.7)
+    rest-client (1.6.1)
+      mime-types (>= 1.16)
     rspec (2.4.0)
       rspec-core (~> 2.4.0)
       rspec-expectations (~> 2.4.0)
@@ -113,6 +124,7 @@ DEPENDENCIES
   dm-serializer
   dm-sqlite-adapter
   haml
+  heroku
   padrino-helpers
   pony
   rack-flash

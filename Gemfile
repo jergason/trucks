@@ -1,7 +1,8 @@
 source "http://rubygems.org"
 
 gem "sinatra"
-gem "sinatra-authentication", :path => "/Users/jergason/Dropbox/sinatra-authentication" #:git => "git://github.com/jergason/sinatra-authentication.git"
+gem "sinatra-authentication", :git => "git://github.com/jergason/sinatra-authentication.git"#:path => "/Users/jergason/Dropbox/sinatra-authentication"
+gem "heroku"
 gem "rspec"
 gem "rack-test"
 gem "rake"

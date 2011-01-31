@@ -18,7 +18,7 @@ var TruckPricer = {
   },
 
   getTruckPrice : function(event) {
-    $("#message").text("");
+    $("#form_message").text("");
     var request = this.makeRequestParams();
     $.get("/price", request, function(response) {
       if (response.error === false) {
@@ -27,15 +27,13 @@ var TruckPricer = {
       else {
         $("[name='price']").val("No price yet");
       }
-      $("#message").text(response.message);
+      $("#form_message").text(response.message);
+      $("#form_message").show();
     }, "json");
   },
 
   setTruckPrice : function(event) {
     var request = this.makeRequestParams();
-    //$.post("/price", request, function(response) {
-      //$("#message").val(response.message);
-    //}, "json");
     $.ajax({
       url: "/price",
       type: "POST",
@@ -43,7 +41,7 @@ var TruckPricer = {
       dataType: "json",
       cache: false,
       success: function(response, status, xhr) {
-        $("#message").text(response.message);
+        $("#form_message").text(response.message);
       },
       error: function (xhr, status, exception) {
         console.error("Error in setTruckPrice ajax request!");

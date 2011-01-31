@@ -8,6 +8,7 @@ use Rack::Session::Cookie, :secret => "What good is a secret key if it doesn't h
 use Rack::Flash
 helpers Padrino::Helpers
 helpers TruckPricer::Helpers
+include TruckPricer
 
 PRICE_PER_MILE = 0.05
 PRICE_PER_MILE_EXTRA = 0.07
@@ -27,11 +28,17 @@ post "/?" do
     flash[:notice] = "You must be logged in to view this page."
     redirect "/login", 303
   else
-    @price = price_for_miles(params[:miles]) * truck_price(params[:vin])
     p params
+    begin
+      @price = price_for_miles(params[:miles].to_i) * price_for_vin(params[:vin])
+    rescue ModelNotFoundException => e
+      flash[:error] = "Sorry, we couldn't find anything for your VIN."
+      p env
+      puts "#{e.message}"
+      puts "#{e.backtrace}"
+    end
     redirect "/"
   end
-    
 end
 
 #show an admin form which allows creation of users
@@ -72,7 +79,7 @@ get "/price" do
     puts "HERE ARE THE PARAMS: "
     p params
     if request.xhr?
-      @price = TruckPricer::Price.first(:truck_model_id => params[:truck_model_id],
+      @price = Price.first(:truck_model_id => params[:truck_model_id],
                                         :engine_id => params[:engine_id],
                                         :year_id => params[:year_id])
       if @price
@@ -83,9 +90,9 @@ get "/price" do
         ret.to_json
       end
     else
-      @truck_model_options = options_array TruckPricer::TruckModel.all
-      @engine_options = options_array TruckPricer::Engine.all
-      @year_options = options_array TruckPricer::Year.all
+      @truck_model_options = options_array TruckModel.all
+      @engine_options = options_array Engine.all
+      @year_options = options_array Year.all
       haml :price
     end
   end
@@ -99,7 +106,7 @@ post "/price" do
     flash[:notice] = "You must be logged in to view that page."
     redirect "/", 303
   end
-  @price = TruckPricer::Price.first_or_create(:engine_id => params[:engine_id],
+  @price = Price.first_or_create(:engine_id => params[:engine_id],
                                               :truck_model_id => params[:truck_model_id],
                                               :year_id => params[:year_id])
   @price.price = params[:price]
@@ -131,12 +138,22 @@ def price_for_miles(miles)
 end
 
 def price_for_vin(vin)
-  #TODO: add some error checking!
-  year_code = vin[TruckPricer::Year::VIN_INDEX]
-  engine_code = vin[TruckPricer::Engine::VIN_INDEX]
-  model_code = vin[TruckPricer::TruckModel::VIN_INDEX]
-  year = TruckModel::Year.first(:vin_string => year_code)
-  engine = TruckModel::Engine.first(:vin_string => engine_code)
-  model = TruckModel::TruckModel.first(:vin_string => model_code)
-  price = TruckPricer::Price.first(:year_id => year.id, :truck_model_id => model.id, :engine_id => engine.id)
+  #TODO: add some error checking for the models and years
+  year_code = vin[Year::VIN_INDEX]
+  engine_code = vin[Engine::VIN_INDEX]
+  model_code = vin[TruckModel::VIN_INDEX]
+  puts "year_code is #{year_code}, engine_code is #{engine_code}, model_code is #{model_code}"
+  year = Year.first(:vin_string => year_code)
+  engine = Engine.first(:vin_string => engine_code)
+  model = TruckModel.first(:vin_string => model_code)
+  [year, engine, model].each { |m| raise ModelNotFoundException, "couldn't find model for #{m}" if m.nil?
+    puts "m is: "
+    pp m
+  }
+  price = Price.first(:year_id => year.id, :truck_model_id => model.id, :engine_id => engine.id)
+  unless price
+    raise ModelNotFoundException, "No price for year: #{year.name}, engine: #{engine.name}, model: #{model.name}"
+  else
+    price
+  end
 end

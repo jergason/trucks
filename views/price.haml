@@ -1,19 +1,47 @@
 :javascript
   $(function () {
-    //Make sure getTruckPrice and setTruckPrice use TruckPricer for tier function context
+    function validatePriceAndSubmit(event) {
+      $("#form_error").hide();
+      $("#form_message").hide();
+      //Validate price field so that it is only numbers
+      var price = $("#price").val();
+      var priceRegex = new RegExp(/[0-9\.]/);
+      if (!priceRegex.test(price)) {
+        $("#form_error").text("Price must be digits only. Please fill the field out correctly.");
+        $("#form_error").slideDown();
+        $("#price").select();
+      }
+      else {
+        TruckPricer.setTruckPrice.call(TruckPricer, event);
+        $("#form_message").slideDown();
+      }
+    }
+    //Make sure getTruckPrice and setTruckPrice use TruckPricer for their function context
     // so calls inside them to this.makeRequestParams() work as expected. I am sure
     // that there is a better way to do this, but don't know how.
     $("select", "#price_form").change(function(event) {
-      TruckPricer.getTruckPrice.call(TruckPricer, event)
+      TruckPricer.getTruckPrice.call(TruckPricer, event);
     });
 
     //Hide the submit button so they can't use it if Javascript is enabled
-    //$("#price_submit").click(function (event) {
-      //@TODO: validation here
-      //TruckPricer.setTruckPrice.call(TruckPricer, event);
-    //});
+    // and add our own submit button
+    $("#price_submit").hide();
+    $("#price_form").append("<button id='new_price_submit' type='button'>Set Price</button>");
+    $("#new_price_submit").click(function(event) {
+      validatePriceAndSubmit(event);
+    });
 
+    //Show the price of the currently selected truck
     TruckPricer.getTruckPrice.call(TruckPricer);
+
+    //Disable enter key so they don't submit the form without going
+    // through the AJAX stuff.
+    $("body").keypress(function(event) {
+      if (event.which == 13) {
+        event.preventDefault();
+        validatePriceAndSubmit(event);
+      }
+    });
   });
 
 #price_form
@@ -30,7 +58,8 @@
       .label
         = label_tag :year_id
       = select_tag :year_id, :id => "year", :options => @year_options
-    #message
+    #form_message
+    #form_error
     .field
       .label
         = label_tag :price

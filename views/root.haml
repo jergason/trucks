@@ -1,11 +1,15 @@
 %h1 Look Up A VIN!
 #vin-form
-  %form{ :id => "vin_form", :action => "/lookup", :method => "POST"}
+  %form{ :id => "vin_form", :action => "/", :method => "POST"}
     .field
       .label
-        %label{ :for => "vin" } Input VIN
+        = label_tag :vin
       = text_field_tag :vin, :id => "vin_field", :placeholder => "Enter VIN here"
-      .submit
-        = submit_tag "Look up VIN", :id => "vin_submit"
+    .field
+      .label
+        = label_tag :miles
+      = text_field_tag :miles, :id => "miles_field", :placeholder => "Enter mileage"
+    .submit
+      = submit_tag "Look up VIN", :id => "vin_submit"
 
 

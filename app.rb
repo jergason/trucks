@@ -18,6 +18,18 @@ get "/?" do
   end
 end
 
+post "/?" do
+  if !logged_in?
+    flash[:notice] = "You must be logged in to view this page."
+    redirect "/login", 303
+  else
+    @price = price_for_miles(params[:miles]) * truck_price(params[:vin])
+    p params
+    redirect "/"
+  end
+    
+end
+
 #show an admin form which allows creation of users
 get "/create_user" do
   unless current_user.admin?
@@ -103,4 +115,27 @@ post "/price" do
     end
     redirect "/price", 303
   end
+end
+
+def price_for_miles(miles)
+  PRICE_PER_MILE = 0.05
+  PRICE_PER_MILE_EXTRA = 0.07
+  MILEAGE_CUTOFF = 200000
+  if (miles > MILEAGE_CUTOFF)
+    price = (MILEAGE_CUTOFF * PRICE_PER_MILE) + ((miles - MILEAGE_CUTOFF) * PRICE_PER_MILE_EXTRA)
+  else
+    price = miles * PRICE_PER_MILE
+  end
+  price
+end
+
+def price_for_vin(vin)
+  #TODO: add some error checking!
+  year_code = vin[TruckPricer::Year::VIN_INDEX]
+  engine_code = vin[TruckPricer::Engine::VIN_INDEX]
+  model_code = vin[TruckPricer::TruckModel::VIN_INDEX]
+  year = TruckModel::Year.first(:vin_string => year_code)
+  engine = TruckModel::Engine.first(:vin_string => engine_code)
+  model = TruckModel::TruckModel.first(:vin_string => model_code)
+  price = TruckPricer::Price.first(:year_id => year.id, :truck_model_id => model.id, :engine_id => engine.id)
 end

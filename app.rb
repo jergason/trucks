@@ -66,7 +66,7 @@ get "/price" do
     redirect "/", 303
   else
     puts "HERE ARE THE PARAMS: "
-    pp params
+    p params
     if request.xhr?
       @price = TruckPricer::Price.first(:truck_model_id => params[:truck_model_id],
                                         :engine_id => params[:engine_id],
@@ -90,7 +90,7 @@ end
 post "/price" do
   puts "inside post /price"
   puts "*****here is the session: "
-  pp session
+  p session
   unless current_user.admin?
     flash[:notice] = "You must be logged in to view that page."
     redirect "/", 303

@@ -9,6 +9,10 @@ use Rack::Flash
 helpers Padrino::Helpers
 helpers TruckPricer::Helpers
 
+PRICE_PER_MILE = 0.05
+PRICE_PER_MILE_EXTRA = 0.07
+MILEAGE_CUTOFF = 200000
+
 get "/?" do
   if !logged_in?
     flash[:notice] = "You must be logged in to view this page."
@@ -118,9 +122,6 @@ post "/price" do
 end
 
 def price_for_miles(miles)
-  PRICE_PER_MILE = 0.05
-  PRICE_PER_MILE_EXTRA = 0.07
-  MILEAGE_CUTOFF = 200000
   if (miles > MILEAGE_CUTOFF)
     price = (MILEAGE_CUTOFF * PRICE_PER_MILE) + ((miles - MILEAGE_CUTOFF) * PRICE_PER_MILE_EXTRA)
   else

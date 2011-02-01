@@ -2,7 +2,7 @@
   //a comment!
 %h1 Look Up A VIN!
 #vin-form
-  %form{ :id => "vin_form", :action => "/", :method => "POST"}
+  %form{ :id => "vin_form", :action => "/", :method => "GET"}
     .field
       .label
         = label_tag :vin
@@ -13,5 +13,7 @@
       = text_field_tag :miles, :id => "miles_field", :placeholder => "Enter mileage"
     .submit
       = submit_tag "Look up VIN", :id => "vin_submit"
-
-
+- if @price
+  #result
+    #price
+      = @price

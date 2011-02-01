@@ -9,7 +9,7 @@ namespace :db do
 
   task :require do
     require "bundler"
-    Bundler.require(:default, :development, :test)
+    Bundler.require(:default, :production)
     require "./app.rb"
   end
 
@@ -37,7 +37,7 @@ namespace :db do
   desc "Create an admin user. useage: rake db:create_admin [email, password]"
   task :create_admin, :email, :password do |t, args|
     require "bundler"
-    Bundler.require
+    Bundler.require(:default, :production)
     require './app.rb'
     puts "Args are #{args}"
     params = { 

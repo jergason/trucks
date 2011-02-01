@@ -10,10 +10,6 @@ helpers Padrino::Helpers
 helpers TruckPricer::Helpers
 include TruckPricer
 
-PRICE_PER_MILE = 0.05
-PRICE_PER_MILE_EXTRA = 0.07
-MILEAGE_CUTOFF = 200000
-
 get "/?" do
   if !logged_in?
     flash[:notice] = "You must be logged in to view this page."
@@ -22,12 +18,17 @@ get "/?" do
     if params[:miles] and params[:vin]
       p params
       begin
-        @price = price_for_miles(params[:miles].to_i) * price_for_vin(params[:vin])
+        price_for_vin = price_for_vin(params[:vin].upcase)
+        @price = Formula.last.price_for_miles_and_base_price(params[:miles].to_i, price_for_vin)
       rescue ModelNotFoundException => e
         flash[:error] = "Sorry, we couldn't find anything for your VIN."
         p env
         puts "#{e.message}"
         puts "#{e.backtrace}"
+      #rescue Exception => e
+        #flash[:error] = "Sorry, some other kind of error occurred: #{e.message}"
+        #puts "#{e.message}"
+        #puts "#{e.backtrace}"
       end
     end
     haml :root
@@ -147,6 +148,6 @@ def price_for_vin(vin)
   unless price
     raise ModelNotFoundException, "No price for year: #{year.name}, engine: #{engine.name}, model: #{model.name}"
   else
-    price
+    price.price
   end
 end

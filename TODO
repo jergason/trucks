@@ -3,7 +3,6 @@
 
 Add admin interface for setting formula pricing.
 
-Fix the menu links (maybe add dropdown menus?)
 2. Implement RESTful interface for truck models, engines, years to create new ones.
 3. Implement email functionality (admin control for changing it as well)
 

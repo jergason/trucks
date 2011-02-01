@@ -19,25 +19,18 @@ get "/?" do
     flash[:notice] = "You must be logged in to view this page."
     redirect "/login", 303
   else
-    haml :root
-  end
-end
-
-post "/?" do
-  if !logged_in?
-    flash[:notice] = "You must be logged in to view this page."
-    redirect "/login", 303
-  else
-    p params
-    begin
-      @price = price_for_miles(params[:miles].to_i) * price_for_vin(params[:vin])
-    rescue ModelNotFoundException => e
-      flash[:error] = "Sorry, we couldn't find anything for your VIN."
-      p env
-      puts "#{e.message}"
-      puts "#{e.backtrace}"
+    if params[:miles] and params[:vin]
+      p params
+      begin
+        @price = price_for_miles(params[:miles].to_i) * price_for_vin(params[:vin])
+      rescue ModelNotFoundException => e
+        flash[:error] = "Sorry, we couldn't find anything for your VIN."
+        p env
+        puts "#{e.message}"
+        puts "#{e.backtrace}"
+      end
     end
-    redirect "/"
+    haml :root
   end
 end
 

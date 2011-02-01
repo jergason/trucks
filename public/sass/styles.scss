@@ -25,26 +25,26 @@ body {
     margin: 0;
     color: black;
   }
-  ul#menu {
-    margin: 0;
-    padding: 0;
-    float: right;
-    position: relative;
-    top: -27px;
-    li {
-      display: inline;
-      float: left;
-      a {
-        color: $light_blue;
-        background-color: $dark_blue;
-        padding: 10px;
-        &:hover {
-          background-color: $light_blue;
-          color: $dark_blue;
-        }
-      }
-    }
-  }
+  //ul#menu {
+    //margin: 0;
+    //padding: 0;
+    //float: right;
+    //position: relative;
+    //top: -27px;
+    //li {
+      //display: inline;
+      //float: left;
+      //a {
+        //color: $light_blue;
+        //background-color: $dark_blue;
+        //padding: 10px;
+        //&:hover {
+          //background-color: $light_blue;
+          //color: $dark_blue;
+        //}
+      //}
+    //}
+  //}
 }
 
 #content {
@@ -59,3 +59,4 @@ body {
 
 @import "flash";
 @import "forms";
+@import "dropdown_menu";

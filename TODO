@@ -1,10 +1,9 @@
 1. See how to test login and signup functionality
 2. Add more tests
 
+Add admin interface for setting formula pricing.
 
-0. Make a purty layout
- * Fix the menu links (maybe add dropdown menus?)
-1. Enable VIN lookup functionality
+Fix the menu links (maybe add dropdown menus?)
 2. Implement RESTful interface for truck models, engines, years to create new ones.
 3. Implement email functionality (admin control for changing it as well)
-4. Password reset functionality?
+

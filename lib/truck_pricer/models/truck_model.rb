@@ -5,14 +5,12 @@ module TruckPricer
     property :id, Serial, :key => true
     property :name, String, :required => true
     property :vin_string, String
-    property :created_on, DateTime, :default => lambda { |r, p| Time.now }
-    property :updated_on, DateTime, :default => lambda { |r, p| Time.now }
+    property :created_at, DateTime
+    property :created_on, Date
+    property :updated_at, DateTime
+    property :updated_on, Date
 
     has n, :prices
-
-    before :save do
-      update_on = Time.now
-    end
   end
 end
 

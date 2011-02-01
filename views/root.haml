@@ -3,14 +3,14 @@
     var temp = $("#vin_form");
     $("#vin_form").submit(function(event) {
       //Validate VIN and miles
-      var miles = new RegExp(/^[0-9]*$/);
-      var vinRegexp = new RegExp(/^[A-Za-z0-9]*$/);
+      var miles = new RegExp(/^[0-9]+$/);
+      var vinRegexp = new RegExp(/^[A-Za-z0-9]+$/);
       var error = "";
       if (!vinRegexp.test($("#vin_field").val())) {
-        error += "Error: VIN must consist of letters or numbers only.\n";
+        error += "Error: VIN must consist of letters or numbers only, and cannot be blank.\n";
       }
       if (!miles.test($("#miles_field").val())) {
-        error += "Error: Miles files must consist of only digits.";
+        error += "Error: Miles files must consist of only digits, and cannot be blank.";
       }
 
       if (error !== "") {
@@ -39,4 +39,6 @@
 - if @price
   #result
     #price
-      = @price
+      Our estimated price for that truck is 
+      %span.price 
+        #{@price}.

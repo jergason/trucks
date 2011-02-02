@@ -25,13 +25,43 @@ get "/?" do
         p env
         puts "#{e.message}"
         puts "#{e.backtrace}"
-      #rescue Exception => e
-        #flash[:error] = "Sorry, some other kind of error occurred: #{e.message}"
-        #puts "#{e.message}"
-        #puts "#{e.backtrace}"
+      rescue Exception => e
+        flash[:error] = "Sorry, some other kind of error occurred: #{e.message}"
+        puts "#{e.message}"
+        puts "#{e.backtrace}"
       end
     end
     haml :root
+  end
+end
+
+#admin form for managing the formula
+get "/formula" do
+  unless current_user.admin?
+    flash[:notice] = "You must be logged in to view that page."
+    redirect "/", 303
+  else
+    @formula = Formula.last
+    haml :formula
+  end
+end
+
+post "/formula" do
+  unless current_user.admin?
+    flash[:notice] = "You must be logged in to view that page."
+    redirect "/", 303
+  else
+    formula = Formula.last
+    #@TODO: validate parameters
+    formula.milage_cutoff = params[:mileage_cutoff]
+    formula.price_per_mile = params[:price_per_mile]
+    formula.price_per_mile_after_cutoff = params[:price_per_mile_after_cutoff]
+    if formula.save
+      flash[:success] = "Saved successfully."
+    else
+      flash[:failure] = "Error saving the formula. Errors: #{formula.errors}"
+    end
+    redurect "/formula", 303
   end
 end
 
@@ -120,15 +150,6 @@ post "/price" do
     end
     redirect "/price", 303
   end
-end
-
-def price_for_miles(miles)
-  if (miles > MILEAGE_CUTOFF)
-    price = (MILEAGE_CUTOFF * PRICE_PER_MILE) + ((miles - MILEAGE_CUTOFF) * PRICE_PER_MILE_EXTRA)
-  else
-    price = miles * PRICE_PER_MILE
-  end
-  price
 end
 
 def price_for_vin(vin)

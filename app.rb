@@ -61,7 +61,7 @@ post "/formula" do
     else
       flash[:failure] = "Error saving the formula. Errors: #{formula.errors}"
     end
-    redurect "/formula", 303
+    redirect "/formula", 303
   end
 end
 

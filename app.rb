@@ -53,7 +53,7 @@ post "/formula" do
   else
     formula = Formula.last
     #@TODO: validate parameters
-    formula.milage_cutoff = params[:mileage_cutoff]
+    formula.mileage_cutoff = params[:mileage_cutoff]
     formula.price_per_mile = params[:price_per_mile]
     formula.price_per_mile_after_cutoff = params[:price_per_mile_after_cutoff]
     if formula.save

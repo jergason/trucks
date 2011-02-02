@@ -13,5 +13,5 @@ configure :development do |config|
 end
 
 set :environment, :development
-DataMapper::Logger.new($stdout, :default)
+#DataMapper::Logger.new($stdout, :default)
 DataMapper.setup(:default, ENV['DATABASE_URL'] || settings.db_path)

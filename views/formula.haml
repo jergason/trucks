@@ -18,6 +18,7 @@
     });
   });
 #formula_form_wrapper
+  - p @formula
   %form{ :id => "formula_form", :action => "/formula", :method => "POST" }
     .field
       .label
@@ -26,10 +27,10 @@
     .field
       .label
         = label_tag :price_per_mile
-      = text_field_tag :price_per_mile, :id => "price_per_mile_field", :placeholder => "Price per mile", :value => @formula.price_per_mile || "0.00"
+      = text_field_tag :price_per_mile, :id => "price_per_mile_field", :placeholder => "Price per mile", :value => @formula.price_per_mile.to_s("F") || "0.00"
     .field
       .label
         = label_tag :price_per_mile_after_cutoff
-      = text_field_tag :price_per_mile_after_cutoff, :id => "price_per_mile_after_cutoff_field", :placeholder => "Price per mile after cutoff", :value => @formula.price_per_mile_after_cutoff || "0.00"
+      = text_field_tag :price_per_mile_after_cutoff, :id => "price_per_mile_after_cutoff_field", :placeholder => "Price per mile after cutoff", :value => @formula.price_per_mile_after_cutoff.to_s("F") || "0.00"
     .submit
       = submit_tag "Set formula", :id => "formula_submit"

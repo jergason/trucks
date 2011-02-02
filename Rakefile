@@ -76,9 +76,11 @@ namespace :db do
     TruckPricer::Year.create(:name => "2015", :vin_string => "F")
     TruckPricer::Year.create(:name => "2016", :vin_string => "G")
     TruckPricer::Year.create(:name => "2017", :vin_string => "H")
-    TruckPricer::Formula.create!(:mileage_cutoff => 200000,
-                                :price_per_mile => 0.05,
-                                :price_per_mile_after_cutoff => 0.07)
+    TruckPricer::Formula.raise_on_save_failure = true
+    require 'bigdecimal'
+    foo = TruckPricer::Formula.create(:mileage_cutoff => "200000",
+                                :price_per_mile => BigDecimal.new("0.05"),
+                                :price_per_mile_after_cutoff => BigDecimal.new("0.07"))
   end
 
   desc "Drop db and repopulate it"

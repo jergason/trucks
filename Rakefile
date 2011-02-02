@@ -76,7 +76,7 @@ namespace :db do
     TruckPricer::Year.create(:name => "2015", :vin_string => "F")
     TruckPricer::Year.create(:name => "2016", :vin_string => "G")
     TruckPricer::Year.create(:name => "2017", :vin_string => "H")
-    TruckPricer::Formula.create!(:mileage_threshold => 200000,
+    TruckPricer::Formula.create!(:mileage_cutoff => 200000,
                                 :price_per_mile => 0.05,
                                 :price_per_mile_after_threshold => 0.07)
   end

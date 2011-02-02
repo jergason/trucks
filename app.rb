@@ -163,7 +163,7 @@ def price_for_vin(vin)
   model = TruckModel.first(:vin_string => model_code)
   [year, engine, model].each { |m| raise ModelNotFoundException, "couldn't find model for #{m}" if m.nil?
     puts "m is: "
-    pp m
+    p m
   }
   price = Price.first(:year_id => year.id, :truck_model_id => model.id, :engine_id => engine.id)
   unless price

@@ -4,8 +4,8 @@ module TruckPricer
 
     property :id, Serial, :key => true, :required => true
     property :mileage_cutoff, Integer, :required => true
-    property :price_per_mile, Decimal, :required => true
-    property :price_per_mile_after_cutoff, Decimal, :required => true
+    property :price_per_mile, Decimal, :required => true, :scale => 2, :precision => 10
+    property :price_per_mile_after_cutoff, Decimal, :required => true, :scale => 2, :precision => 10
     property :created_at, DateTime
     property :created_on, Date
     property :updated_at, DateTime

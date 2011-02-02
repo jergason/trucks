@@ -3,6 +3,7 @@ $LOAD_PATH.unshift File.join(File.dirname(__FILE__), "lib") unless $LOAD_PATH.in
 
 require 'settings'
 require 'truck_pricer'
+require 'bigdecimal'
 
 use Rack::Session::Cookie, :secret => "What good is a secret key if it doesn't have some gibberish@@#AKGHFKAA?"
 use Rack::Flash
@@ -41,7 +42,7 @@ get "/formula" do
     flash[:notice] = "You must be logged in to view that page."
     redirect "/", 303
   else
-    @formula = Formula.last
+    @formula = Formula.first_or_create
     haml :formula
   end
 end
@@ -51,11 +52,11 @@ post "/formula" do
     flash[:notice] = "You must be logged in to view that page."
     redirect "/", 303
   else
-    formula = Formula.last
+    formula = Formula.first
     #@TODO: validate parameters
     formula.mileage_cutoff = params[:mileage_cutoff]
-    formula.price_per_mile = params[:price_per_mile]
-    formula.price_per_mile_after_cutoff = params[:price_per_mile_after_cutoff]
+    formula.price_per_mile = BigDecimal.new(params[:price_per_mile])
+    formula.price_per_mile_after_cutoff = BigDecimal.new(params[:price_per_mile_after_cutoff])
     if formula.save
       flash[:success] = "Saved successfully."
     else

@@ -3,8 +3,8 @@
     var temp = $("#vin_form");
     $("#vin_form").submit(function(event) {
       //Validate VIN and miles
-      var miles = new RegExp(/^[0-9]+$/);
-      var vinRegexp = new RegExp(/^[A-Za-z0-9]+$/);
+      var miles = new RegExp(/^[0-9]+\s*$/);
+      var vinRegexp = new RegExp(/^[A-Za-z0-9]+\s*$/);
       var error = "";
       if (!vinRegexp.test($("#vin_field").val())) {
         error += "Error: VIN must consist of letters or numbers only, and cannot be blank.\n";
@@ -14,6 +14,7 @@
       }
 
       if (error !== "") {
+        error += "Did you check for spaces at the end?\n";
         event.preventDefault();
         alert(error);
         return false;
@@ -39,6 +40,6 @@
 - if @price
   #result
     #price
-      Our estimated price for that truck is 
+      Our estimated price for that truck is $
       %span.price 
         #{@price}.

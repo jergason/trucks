@@ -17,6 +17,8 @@
         %a{ :href => "/logout" } Log Out
     - if current_user.admin?
       %li
+        %a{ :href => "/" } Home
+      %li
         %a{ :href => "#" } Admin
         %ul.sub_menu
           %li

@@ -19,8 +19,8 @@ get "/?" do
     if params[:miles] and params[:vin]
       p params
       begin
-        price_for_vin = price_for_vin(params[:vin].upcase)
-        @price = Formula.last.price_for_miles_and_base_price(params[:miles].to_i, price_for_vin)
+        price_for_vin = price_for_vin(params[:vin].upcase.chomp)
+        @price = Formula.last.price_for_miles_and_base_price(params[:miles].chomp.to_i, price_for_vin)
       rescue ModelNotFoundException => e
         flash[:error] = "Sorry, we couldn't find anything for your VIN."
         p env
@@ -312,6 +312,7 @@ def price_for_vin(vin)
   year_code = vin[Year::VIN_INDEX]
   engine_code = vin[Engine::VIN_INDEX]
   model_code = vin[TruckModel::VIN_INDEX]
+  puts "vin indicies are year: #{Year::VIN_INDEX}, engine: #{Engine::VIN_INDEX}, model: #{TruckModel::VIN_INDEX}"
   puts "year_code is #{year_code}, engine_code is #{engine_code}, model_code is #{model_code}"
   year = Year.first(:vin_string => year_code)
   engine = Engine.first(:vin_string => engine_code)

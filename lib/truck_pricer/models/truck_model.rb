@@ -1,7 +1,7 @@
 module TruckPricer
   class TruckModel
     include DataMapper::Resource
-    VIN_INDEX = 6
+    VIN_INDEX = 4
     property :id, Serial, :key => true
     property :name, String, :required => true
     property :vin_string, String

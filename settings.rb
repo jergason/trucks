@@ -10,6 +10,11 @@ configure :development do |config|
   config.also_reload "lib/*.rb"
   config.also_reload "lib/truck_pricer/*.rb"
   config.also_reload "lib/truck_pricer/models/*.rb"
+  set :email_address, "jergason@gmail.com"
+end
+
+configure :production do |config|
+  set :email_address, "jergason@gmail.com"
 end
 
 set :environment, :development

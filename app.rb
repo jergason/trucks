@@ -11,16 +11,28 @@ helpers Padrino::Helpers
 helpers TruckPricer::Helpers
 include TruckPricer
 
+pricer = Finder.new
+
 get "/?" do
   if !logged_in?
     flash[:notice] = "You must be logged in to view this page."
     redirect "/login", 303
   else
     if params[:miles] and params[:vin]
-      p params
       begin
-        price_for_vin = price_for_vin(params[:vin].upcase.chomp)
+        price_for_vin = pricer.price_for_vin(params[:vin].upcase.chomp)
+        @year = pricer.year_from_vin(params[:vin].upcase.chomp)
+        @engine = pricer.engine_from_vin(params[:vin].upcase.chomp)
+        @model = pricer.truck_model_from_vin(params[:vin].upcase.chomp)
+
         @price = Formula.last.price_for_miles_and_base_price(params[:miles].chomp.to_i, price_for_vin)
+        #if we get here it was successful, so send an email
+        #Pony.mail(
+          #:to => settings.email_recipient,
+          #:from => settings.email_sender,
+          #:subject => "User #{current_user.email} looked up a truck",
+          #:body => "a body"
+        #)
       rescue ModelNotFoundException => e
         flash[:error] = "Sorry, we couldn't find anything for your VIN."
         p env
@@ -31,6 +43,8 @@ get "/?" do
         puts "#{e.message}"
         puts "#{e.backtrace}"
       end
+    else
+      flash[:error] = "VIN and Mileage must both be filled out."
     end
     haml :root
   end
@@ -305,26 +319,4 @@ get "/models/:id/delete" do
     flash[:error] = "Error in deleting truck model"
   end
   redirect "/models", 303
-end
-
-def price_for_vin(vin)
-  #TODO: add some error checking for the models and years
-  year_code = vin[Year::VIN_INDEX]
-  engine_code = vin[Engine::VIN_INDEX]
-  model_code = vin[TruckModel::VIN_INDEX]
-  puts "vin indicies are year: #{Year::VIN_INDEX}, engine: #{Engine::VIN_INDEX}, model: #{TruckModel::VIN_INDEX}"
-  puts "year_code is #{year_code}, engine_code is #{engine_code}, model_code is #{model_code}"
-  year = Year.first(:vin_string => year_code)
-  engine = Engine.first(:vin_string => engine_code)
-  model = TruckModel.first(:vin_string => model_code)
-  [year, engine, model].each { |m| raise ModelNotFoundException, "couldn't find model for #{m}" if m.nil?
-    puts "m is: "
-    p m
-  }
-  price = Price.first(:year_id => year.id, :truck_model_id => model.id, :engine_id => engine.id)
-  unless price
-    raise ModelNotFoundException, "No price for year: #{year.name}, engine: #{engine.name}, model: #{model.name}"
-  else
-    price.price
-  end
 end

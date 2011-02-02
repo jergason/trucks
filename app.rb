@@ -25,14 +25,28 @@ get "/?" do
         p env
         puts "#{e.message}"
         puts "#{e.backtrace}"
-      #rescue Exception => e
-        #flash[:error] = "Sorry, some other kind of error occurred: #{e.message}"
-        #puts "#{e.message}"
-        #puts "#{e.backtrace}"
+      rescue Exception => e
+        flash[:error] = "Sorry, some other kind of error occurred: #{e.message}"
+        puts "#{e.message}"
+        puts "#{e.backtrace}"
       end
     end
     haml :root
   end
+end
+
+#admin form for managing the formula
+get "/formula" do
+  unless current_user.admin?
+    flash[:notice] = "You must be logged in to view that page."
+    redirect "/", 303
+  else
+    @formula = Formula.last
+    haml :formula
+  end
+end
+
+post "/formula" do
 end
 
 #show an admin form which allows creation of users
@@ -120,15 +134,6 @@ post "/price" do
     end
     redirect "/price", 303
   end
-end
-
-def price_for_miles(miles)
-  if (miles > MILEAGE_CUTOFF)
-    price = (MILEAGE_CUTOFF * PRICE_PER_MILE) + ((miles - MILEAGE_CUTOFF) * PRICE_PER_MILE_EXTRA)
-  else
-    price = miles * PRICE_PER_MILE
-  end
-  price
 end
 
 def price_for_vin(vin)

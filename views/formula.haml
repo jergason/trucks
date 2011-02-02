@@ -1,0 +1,35 @@
+:javascript
+  $(function() {
+    $("#formula_form").submit(function(event) {
+      //validation for formula form
+      var cutoff = new RegExp(/^[0-9]+$/);
+      var pricePerMile = new RegExp(/^\d\.\d\d$/);
+      var error = "";
+
+      if (!cutoff.test($("#mileage_cutoff").val())) {
+        error += "Error: Mileage cutoff must consist of only digits, and cannot be empty.\n";
+      }
+      if (!pricePerMile.test($("#price_per_mile").val())) {
+        error += "Error: Price per mile must begin with a digit followed by a period and two more digits (like this: 0.07)";
+      }
+      if (!pricePerMile.test($("#price_per_mile_after_cutoff").val())) {
+        error += "Error: Price per mile must begin with a digit followed by a period and two more digits (like this: 0.07)";
+      }
+    });
+  });
+#formula_form_wrapper
+  %form{ :id => "formula_form", :action => "/formula", :method => "POST" }
+    .field
+      .label
+        = label_tag :mileage_cutoff
+      = text_field_tag :mileage_cutoff, :id => "mileage_cutoff_field", :placeholder => "Mileage cutoff", :default_value => @formula.mileage_cutoff || "0"
+    .field
+      .label
+        = label_tag :price_pre_mile
+      = text_field_tag :price_per_mile, :id => "price_per_mile_field", :placeholder => "Price per mile", :default_value => @formula.price_per_mile || "0.00"
+    .field
+      .label
+        = label_tag :price_per_mile_after_cutoff
+      = text_field_tag :price_per_mile_after_cutoff, :id => "price_per_mile_after_cutoff_field", :placeholder => "Price per mile after cutoff", :default_value => @formula.price_per_mile_after_cutoff || "0.00"
+    .submit
+      = submit_tag "Set formula", :id => "formula_submit"

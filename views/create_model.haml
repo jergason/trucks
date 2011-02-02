@@ -1,0 +1,14 @@
+%h1 Create a new #{@model_name}
+%form{ :action => @model_action, :method => "POST" }
+  .model
+    .field
+      .label
+        = label_tag :name
+      = text_field_tag :name, :id => "name_field", :value => "Enter a name"
+    .field
+      .label
+        = label_tag :vin_string
+        \- the letter or number in the VIN that represents this #{@model_name}.
+      = text_field_tag :vin_string, :id => "vin_string", :value => "A", :size => 1
+    .submit
+      = submit_tag "Save #{@model_name}", :id => "#{@model_name}_submit"

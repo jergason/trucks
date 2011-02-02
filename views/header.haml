@@ -24,11 +24,32 @@
           %li
             %a{ :href => "/create_user" } Create User Accounts
           %li
+            %a{ :href => "/users" } Edit Users
+          %li
             %a{ :href => "/formula" } Edit Formula
           %li
             %a{ :href => "/truck_models" } List Truck Models
           %li
             %a{ :href => "/engines" } List Engines
           %li
-            %a{ :href => "/years" } List Years
+            %a{ :href => "#" } Years
+            %ul.sub_menu
+              %li
+                %a{ :href => "/years" } List Years
+              %li
+                %a{ :href => "/years/new" } Add Year
+          %li
+            %a{ :href => "#" } Engines
+            %ul.sub_menu
+              %li
+                %a{ :href => "/engines" } List Engines
+              %li
+                %a{ :href => "/engines/new" } Add Engine
+          %li
+            %a{ :href => "#" } Truck Models
+            %ul.sub_menu
+              %li
+                %a{ :href => "/models" } List Truck Models
+              %li
+                %a{ :href => "/models/new" } Add Truck Model
 

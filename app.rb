@@ -42,7 +42,7 @@ get "/formula" do
     flash[:notice] = "You must be logged in to view that page."
     redirect "/", 303
   else
-    @formula = Formula.first_or_create
+    @formula = Formula.last
     haml :formula
   end
 end
@@ -52,7 +52,7 @@ post "/formula" do
     flash[:notice] = "You must be logged in to view that page."
     redirect "/", 303
   else
-    formula = Formula.first
+    formula = Formula.last
     #@TODO: validate parameters
     formula.mileage_cutoff = params[:mileage_cutoff]
     formula.price_per_mile = BigDecimal.new(params[:price_per_mile])
@@ -151,6 +151,160 @@ post "/price" do
     end
     redirect "/price", 303
   end
+end
+
+#Restful routes for Engine, Year and Truck Model
+
+get "/years" do
+  unless current_user.admin?
+    flash[:notice] = "You must be logged in to view that page."
+    redirect "/", 303
+  end
+  @models = Year.all
+  @model_name = "year"
+  @model_action = "/years"
+  haml :models
+end
+
+get "/years/new" do
+  unless current_user.admin?
+    flash[:notice] = "You must be logged in to view that page."
+    redirect "/", 303
+  end
+  @model_action = "/years"
+  @model_name = "year"
+  haml :create_model
+end
+
+post "/years" do
+  unless current_user.admin?
+    flash[:notice] = "You must be logged in to view that page."
+    redirect "/", 303
+  end
+  year = Year.new(:name => params[:name], :vin_string => params[:vin_string])
+  if year.save
+    flash[:success] = "Year created successfully"
+    redirect "/years", 303
+  else
+    flash[:error] = "Error creating your year: #{year.errors}"
+    redirect "/years/new", 303
+  end
+end
+
+get "/years/:id/delete" do
+  unless current_user.admin?
+    flash[:notice] = "You must be logged in to view that page."
+    redirect "/", 303
+  end
+
+  if Year.get(params[:id]).destroy
+    flash[:success] = "Successfully deleted year"
+  else
+    flash[:error] = "Error in deleting year"
+  end
+  redirect "/years", 303
+end
+
+
+get "/engines" do
+  unless current_user.admin?
+    flash[:notice] = "You must be logged in to view that page."
+    redirect "/", 303
+  end
+  @models = Engine.all
+  @model_name = "engine"
+  @model_action = "/engines"
+  haml :models
+end
+
+get "/engines/new" do
+  unless current_user.admin?
+    flash[:notice] = "You must be logged in to view that page."
+    redirect "/", 303
+  end
+  @model_action = "/engines"
+  @model_name = "engine"
+  haml :create_model
+end
+
+post "/engines" do
+  unless current_user.admin?
+    flash[:notice] = "You must be logged in to view that page."
+    redirect "/", 303
+  end
+  engine = Engine.new(:name => params[:name], :vin_string => params[:vin_string])
+  if engine.save
+    flash[:success] = "Engine created successfully"
+    redirect "/engines", 303
+  else
+    flash[:error] = "Error creating your engine: #{engine.errors}"
+    redirect "/engines/new", 303
+  end
+end
+
+get "/engines/:id/delete" do
+  unless current_user.admin?
+    flash[:notice] = "You must be logged in to view that page."
+    redirect "/", 303
+  end
+
+  if Engine.get(params[:id]).destroy
+    flash[:success] = "Successfully deleted engine"
+  else
+    flash[:error] = "Error in deleting engine"
+  end
+  redirect "/engines", 303
+end
+
+
+get "/models" do
+  unless current_user.admin?
+    flash[:notice] = "You must be logged in to view that page."
+    redirect "/", 303
+  end
+  @models = TruckModel.all
+  @model_name = "model"
+  @model_action = "/models"
+  haml :models
+end
+
+get "/models/new" do
+  unless current_user.admin?
+    flash[:notice] = "You must be logged in to view that page."
+    redirect "/", 303
+  end
+  @model_action = "/models"
+  @model_name = "model"
+  haml :create_model
+end
+
+post "/models" do
+  unless current_user.admin?
+    flash[:notice] = "You must be logged in to view that page."
+    redirect "/", 303
+  end
+  model = TruckModel.new(:name => params[:name], :vin_string => params[:vin_string])
+  if model.save
+    flash[:success] = "TruckModel created successfully"
+    redirect "/models", 303
+  else
+    flash[:error] = "Error creating your model: #{model.errors}"
+    redirect "/models/new", 303
+  end
+end
+
+get "/models/:id/delete" do
+  unless current_user.admin?
+    flash[:notice] = "You must be logged in to view that page."
+    redirect "/", 303
+  end
+
+  if TruckModel.get(params[:id]).destroy
+    flash[:success] = "Successfully deleted truck model"
+  else
+    flash[:error] = "Error in deleting truck model"
+  end
+  redirect "/models", 303
 end
 
 def price_for_vin(vin)

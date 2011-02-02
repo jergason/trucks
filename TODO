@@ -3,9 +3,6 @@
 
 Add admin interface for setting formula pricing.
 
-1. Fix the layout bug.
-2. Fix display of mileage thing
-2. Implement RESTful interface for truck models, engines, years to create new ones.
-3. Implement email functionality (admin control for changing it as well)
-
-5. LOWER PRICE INSTEAD UP RAISE IT
+1. Fix the layout bugs - weird form indentation sometimes, and no CSS on edit pages.
+   What is different about them?
+2. Implement email functionality

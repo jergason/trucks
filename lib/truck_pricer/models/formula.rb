@@ -21,6 +21,6 @@ module TruckPricer
     else
       mileage_price = miles * self.price_per_mile
     end
-    return mileage_price + base_price
+    return base_price - mileage_price
   end
 end

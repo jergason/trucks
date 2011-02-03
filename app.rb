@@ -25,7 +25,7 @@ get "/?" do
         @engine = pricer.engine_from_vin(params[:vin].upcase.chomp)
         @model = pricer.truck_model_from_vin(params[:vin].upcase.chomp)
 
-        @price = Price.last(:engine_id => @engine.id, :year_id => @year.id, :truck_model_id => @model.id).price_for_miles_and_base_price(params[:miles].chomp.to_i, price_for_vin)
+        @price = Formula.last.price_for_miles_and_base_price(params[:miles].chomp.to_i, price_for_vin)
         #if we get here it was successful, so send an email
         Pony.mail(
           :to => settings.email_recipient,

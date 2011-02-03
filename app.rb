@@ -120,7 +120,13 @@ get "/price" do
                                         :engine_id => params[:engine_id],
                                         :year_id => params[:year_id])
       if @price
-        ret = { :message => "Here is the price for the truck!", :price => @price.price, :error => false }
+        ret = { 
+          :message => "Price for the truck:",
+          :price => @price.price,
+          :mileage_cutoff => @price.mileage_cutoff,
+          :price_per_mile => @price.price_per_mile.to_s("F"),
+          :price_per_mile_after_cutoff => @price.price_per_mile_after_cutoff.to_s("F"),
+          :error => false }
         ret.to_json
       else
         ret = { :message => "No price yet for this truck, engine and year combination.", :error => true }
@@ -143,10 +149,14 @@ post "/price" do
     flash[:notice] = "You must be logged in to view that page."
     redirect "/", 303
   end
+  pp params
   @price = Price.first_or_create(:engine_id => params[:engine_id],
                                               :truck_model_id => params[:truck_model_id],
                                               :year_id => params[:year_id])
-  @price.price = params[:price]
+  @price.price = params[:price].chomp
+  @price.mileage_cutoff = params[:mileage_cutoff].chomp
+  @price.price_per_mile = BigDecimal.new(params[:price_per_mile].chomp)
+  @price.price_per_mile_after_cutoff = BigDecimal.new(params[:price_per_mile_after_cutoff].chomp)
   res = @price.save
   if request.xhr?
     if res

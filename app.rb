@@ -20,12 +20,12 @@ get "/?" do
   else
     if params[:miles] and params[:vin]
       begin
-        price_for_vin = pricer.price_for_vin(params[:vin].upcase.chomp)
         @year = pricer.year_from_vin(params[:vin].upcase.chomp)
         @engine = pricer.engine_from_vin(params[:vin].upcase.chomp)
         @model = pricer.truck_model_from_vin(params[:vin].upcase.chomp)
 
-        @price = Formula.last.price_for_miles_and_base_price(params[:miles].chomp.to_i, price_for_vin)
+        @price = Price.last(:truck_model_id => @model.id, :engine_id => @engine.id, :year_id => @year.id).price_for_miles_and_base_price(params[:miles].chomp.to_i)
+        pp @price
         #if we get here it was successful, so send an email
         Pony.mail(
           :to => settings.email_recipient,

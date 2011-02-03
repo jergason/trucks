@@ -1,19 +1,13 @@
 1. See how to test login and signup functionality
 2. Add more tests
 
-Add admin interface for setting formula pricing.
 
 1. Fix the layout bugs - weird form indentation sometimes, and no CSS on edit pages.
    What is different about them?
 2. Implement email functionality
 
 
-3. Allow white space at the end of vins, but trim in app.rb
 4. Formula should be specific to the combination.
-6. Bring up the make, model and engine with the price underneath
-
-2009 Cascadia dd15
-Valuation: price
 
 
 Early Trade Valuation

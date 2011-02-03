@@ -52,6 +52,11 @@ module TruckPricer
 
       code = vin[eval(model_name_new)::VIN_INDEX]
       model = eval(model_name_new).first(:vin_string => code)
+      if model.nil?
+        raise ModelNotFoundException, "No #{model_name} for the VIN."
+      else
+        model
+      end
     end
   end
 end

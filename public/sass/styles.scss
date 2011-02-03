@@ -1,12 +1,11 @@
 $light_blue: #cce2f7;
 $dark_blue: #4a5a73;
 $text_color: #111d2d;
-
 $background_color: #b2b2b2;
+
 body {
   font-family: "Arial", Helvetica, sans-serif;
   background-color: lighten($background_color, 15%);
-  line-height: 19px;
 }
 
 #container {

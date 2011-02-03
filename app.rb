@@ -28,10 +28,10 @@ get "/?" do
         @price = Formula.last.price_for_miles_and_base_price(params[:miles].chomp.to_i, price_for_vin)
         #if we get here it was successful, so send an email
         #Pony.mail(
-          #:to => settings.email_recipient,
-          #:from => settings.email_sender,
-          #:subject => "User #{current_user.email} looked up a truck",
-          #:body => "a body"
+        #:to => settings.email_recipient,
+        #:from => settings.email_sender,
+        #:subject => "User #{current_user.email} looked up a truck",
+        #:body => "a body"
         #)
       rescue ModelNotFoundException => e
         flash[:error] = "Sorry, we couldn't find anything for your VIN."
@@ -98,7 +98,6 @@ post "/create_user" do
     end
     @user = User.set(params[:user])
     if @user.valid && @user.id
-      #session[:user] = @user.id
       flash[:success] = "Account created."
       redirect '/create_user'
     else
@@ -117,8 +116,8 @@ get "/price" do
     p params
     if request.xhr?
       @price = Price.first(:truck_model_id => params[:truck_model_id],
-                                        :engine_id => params[:engine_id],
-                                        :year_id => params[:year_id])
+                           :engine_id => params[:engine_id],
+                           :year_id => params[:year_id])
       if @price
         ret = { 
           :message => "Price for the truck:",
@@ -127,7 +126,7 @@ get "/price" do
           :price_per_mile => @price.price_per_mile.to_s("F"),
           :price_per_mile_after_cutoff => @price.price_per_mile_after_cutoff.to_s("F"),
           :error => false }
-        ret.to_json
+          ret.to_json
       else
         ret = { :message => "No price yet for this truck, engine and year combination.", :error => true }
         ret.to_json
@@ -151,8 +150,8 @@ post "/price" do
   end
   pp params
   @price = Price.first_or_create(:engine_id => params[:engine_id],
-                                              :truck_model_id => params[:truck_model_id],
-                                              :year_id => params[:year_id])
+                                 :truck_model_id => params[:truck_model_id],
+                                 :year_id => params[:year_id])
   @price.price = params[:price].chomp
   @price.mileage_cutoff = params[:mileage_cutoff].chomp
   @price.price_per_mile = BigDecimal.new(params[:price_per_mile].chomp)

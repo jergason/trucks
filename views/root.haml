@@ -24,12 +24,11 @@
       }
     });
   });
-%h1 Look Up A VIN!
 #vin_form_wrapper
   %form{ :id => "vin_form", :action => "/", :method => "GET"}
     .field
       .label
-        = label_tag :vin
+        %label{ :for => :vin} VIN
       = text_field_tag :vin, :id => "vin_field", :placeholder => "Enter VIN here"
     .field
       .label
@@ -38,8 +37,8 @@
     .submit
       = submit_tag "Look up VIN", :id => "vin_submit"
 - if @price
-  #result
-    #price
-      Our estimated price for that truck is $
-      %span.price 
-        #{@price}.
+  .result
+    #{@year.name} #{@model.name} #{@engine.name}
+    %br
+    Valuation:
+    %span#price= "#{@price}"

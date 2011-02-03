@@ -1,29 +1,29 @@
-$light_blue :#cce2f7;
+$light_blue: #cce2f7;
 $dark_blue: #4a5a73;
 $text_color: #111d2d;
 
+$background_color: #b2b2b2;
 body {
-  font-family: "Courier New", Courier, monospace;
+  font-family: "Arial", Helvetica, sans-serif;
+  background-color: lighten($background_color, 15%);
+  line-height: 19px;
 }
 
 #container {
   width: 1000px;
   margin: auto;
-  background-color: $light_blue;
   color: $text_color;
 }
 
 #header {
-  background: {
-    color: $dark_blue;
-  }
-  height: 39px;
   margin: 0em 0em 1em 0em;
   padding: 0em 1em;
   h1 {
+    font-family: "Palatino Linotype", Palatino, serif;
     padding: 0;
     margin: 0;
-    color: black;
+    color: darken($background_color, 35%);
+    font-size: 52px;
   }
 }
 
@@ -32,10 +32,12 @@ body {
   clear: both;
 }
 
-#vin-form {
-  .submit {
-    display: inline;
-  }
+.result {
+  margin: 10px;
+}
+
+#price {
+  border: 1px solid black;
 }
 
 @import "flash";

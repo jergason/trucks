@@ -197,3 +197,17 @@ form ol li.date label,
 form ol li.time label {
   display: none;
 }
+
+#vin-form {
+  .submit {
+    display: inline;
+  }
+}
+
+.field {
+  margin: 10px 0;
+}
+
+.label {
+  margin: 5px 0;
+}

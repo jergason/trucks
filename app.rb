@@ -43,8 +43,6 @@ get "/?" do
         puts "#{e.message}"
         puts "#{e.backtrace}"
       end
-    else
-      flash[:error] = "VIN and Mileage must both be filled out."
     end
     haml :root
   end

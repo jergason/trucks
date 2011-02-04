@@ -36,10 +36,10 @@
         = label_tag :miles
       = text_field_tag :miles, :id => "miles_field", :placeholder => "Enter mileage"
     .submit
-      = submit_tag "Look up VIN", :id => "vin_submit"
+      = submit_tag "Decode", :id => "vin_submit"
 - if @price
   .result
     #{@year.name} #{@model.name} #{@engine.name}
     %br
     Valuation:
-    %span#price= "#{@price}"
+    %span#price= format_as_currency @price

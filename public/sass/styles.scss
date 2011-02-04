@@ -32,11 +32,13 @@ body {
 }
 
 .result {
-  margin: 10px;
-}
-
-#price {
-  border: 1px solid black;
+  margin: 50px 0;
+  .valuation {
+    margin: 20px 0 0;
+    #price {
+      border: 1px solid black;
+    }
+  }
 }
 
 @import "flash";

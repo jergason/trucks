@@ -20,7 +20,7 @@ configure :development do |config|
 end
 
 configure :production do |config|
-  set :email_recipient, "rbeeson@warnertc.com"
+  set :email_recipient, "jergason@gmail.com"
   set :email_username, ENV["SENDGRID_USERNAME"]
   set :email_password, ENV["SENDGRID_PASSWORD"]
   set :email_domain, ENV["SENDGRID_DOMAIN"]

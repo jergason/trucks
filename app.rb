@@ -25,7 +25,7 @@ get "/?" do
         @model = pricer.truck_model_from_vin(params[:vin].upcase.chomp)
 
         @price = Price.last(:truck_model_id => @model.id, :engine_id => @engine.id, :year_id => @year.id).price_for_miles_and_base_price(params[:miles].chomp.to_i).to_s
-        pp @price.class
+        @price = "#{@price}0" if @price =~ /^\d+\.\d$/
         #if we get here it was successful, so send an email
         #Pony.mail(
         #:to => settings.email_recipient,

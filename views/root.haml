@@ -41,5 +41,6 @@
   .result
     #{@year.name} #{@model.name} #{@engine.name}
     %br
-    Valuation:
-    %span#price= format_as_currency @price
+    .valuation
+      Valuation:
+      %span#price= format_as_currency @price

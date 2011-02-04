@@ -22,10 +22,11 @@ body {
   clear: both; }
 
 .result {
-  margin: 10px; }
-
-#price {
-  border: 1px solid black; }
+  margin: 50px 0; }
+  .result .valuation {
+    margin: 20px 0 0; }
+    .result .valuation #price {
+      border: 1px solid black; }
 
 .error, .notice, .warning, .success {
   margin-bottom: 1em;

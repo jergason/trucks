@@ -48,35 +48,35 @@ get "/?" do
   end
 end
 
-#admin form for managing the formula
-get "/formula" do
-  unless current_user.admin?
-    flash[:notice] = "You must be logged in to view that page."
-    redirect "/", 303
-  else
-    @formula = Formula.last
-    haml :formula
-  end
-end
+##admin form for managing the formula
+#get "/formula" do
+  #unless current_user.admin?
+    #flash[:notice] = "You must be logged in to view that page."
+    #redirect "/", 303
+  #else
+    #@formula = Formula.last
+    #haml :formula
+  #end
+#end
 
-post "/formula" do
-  unless current_user.admin?
-    flash[:notice] = "You must be logged in to view that page."
-    redirect "/", 303
-  else
-    formula = Formula.last
+#post "/formula" do
+  #unless current_user.admin?
+    #flash[:notice] = "You must be logged in to view that page."
+    #redirect "/", 303
+  #else
+    #formula = Formula.last
     #@TODO: validate parameters
-    formula.mileage_cutoff = params[:mileage_cutoff]
-    formula.price_per_mile = BigDecimal.new(params[:price_per_mile])
-    formula.price_per_mile_after_cutoff = BigDecimal.new(params[:price_per_mile_after_cutoff])
-    if formula.save
-      flash[:success] = "Saved successfully."
-    else
-      flash[:failure] = "Error saving the formula. Errors: #{formula.errors}"
-    end
-    redirect "/formula", 303
-  end
-end
+    #formula.mileage_cutoff = params[:mileage_cutoff]
+    #formula.price_per_mile = BigDecimal.new(params[:price_per_mile])
+    #formula.price_per_mile_after_cutoff = BigDecimal.new(params[:price_per_mile_after_cutoff])
+    #if formula.save
+      #flash[:success] = "Saved successfully."
+    #else
+      #flash[:failure] = "Error saving the formula. Errors: #{formula.errors}"
+    #end
+    #redirect "/formula", 303
+  #end
+#end
 
 #show an admin form which allows creation of users
 get "/create_user" do
@@ -123,8 +123,8 @@ get "/price" do
           :message => "Price for the truck:",
           :price => @price.price,
           :mileage_cutoff => @price.mileage_cutoff,
-          :price_per_mile => @price.price_per_mile.to_s("F"),
-          :price_per_mile_after_cutoff => @price.price_per_mile_after_cutoff.to_s("F"),
+          :add_per_mile => @price.price_per_mile.to_s("F"),
+          :deduct_per_mile => @price.price_per_mile_after_cutoff.to_s("F"),
           :error => false }
           ret.to_json
       else
@@ -154,8 +154,8 @@ post "/price" do
                                  :year_id => params[:year_id])
   @price.price = params[:price].chomp
   @price.mileage_cutoff = params[:mileage_cutoff].chomp
-  @price.price_per_mile = BigDecimal.new(params[:price_per_mile].chomp)
-  @price.price_per_mile_after_cutoff = BigDecimal.new(params[:price_per_mile_after_cutoff].chomp)
+  @price.price_per_mile = BigDecimal.new(params[:add_per_mile].chomp)
+  @price.price_per_mile_after_cutoff = BigDecimal.new(params[:deduct_per_mile].chomp)
   res = @price.save
   if request.xhr?
     if res

@@ -15,10 +15,10 @@
       if (!cutoff.test($("#mileage_cutoff_field").val())) {
         error += "<em>Error:</em> Mileage cutoff must consist of only digits, and cannot be empty.<br />";
       }
-      if (!pricePerMile.test($("#price_per_mile_field").val())) {
+      if (!pricePerMile.test($("#add_per_mile_field").val())) {
         error += "<em>Error:</em> Price per mile must begin with a digit followed by a period and two more digits (like this: 0.07)<br />";
       }
-      if (!pricePerMile.test($("#price_per_mile_after_cutoff_field").val())) {
+      if (!pricePerMile.test($("#deduct_per_mile_field").val())) {
         error += "<em>Error:</em> Price per mile must begin with a digit followed by a period and two more digits (like this: 0.07)<br />";
       }
 
@@ -82,14 +82,14 @@
       = text_field_tag :price, :id => "price", :placeholder => "One billion dollars"
     .field
       .label
-        = label_tag :mileage_cutoff
+        = label_tag :average_mileage
       = text_field_tag :mileage_cutoff, :id => "mileage_cutoff_field", :placeholder => "Mileage cutoff"
     .field
       .label
-        = label_tag :price_per_mile
-      = text_field_tag :price_per_mile, :id => "price_per_mile_field", :placeholder => "Price per mile"
+        = label_tag :add_per_mile
+      = text_field_tag :add_per_mile, :id => "add_per_mile_field", :placeholder => "Add per mile"
     .field
       .label
-        = label_tag :price_per_mile_after_cutoff
-      = text_field_tag :price_per_mile_after_cutoff, :id => "price_per_mile_after_cutoff_field", :placeholder => "Price per mile after cutoff"
+        = label_tag :deduct_per_mile
+      = text_field_tag :deduct_per_mile, :id => "deduct_per_mile_field", :placeholder => "Deduct per mile"
     = submit_tag "Set price and formula", :id => "price_submit"

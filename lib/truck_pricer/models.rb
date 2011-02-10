@@ -6,6 +6,5 @@ require 'models/engine'
 require 'models/truck_model'
 require 'models/year'
 require 'models/price'
-require 'models/formula'
 
 DataMapper.finalize

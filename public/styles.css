@@ -54,6 +54,9 @@ body {
   .notice a, #form_message a {
     color: #817134; }
 
+#form_error, #form_message {
+  width: 50%; }
+
 /* Forms */
 /*removes dotted outline on submit buttons when clicking in firefox */
 input[type="submit"]::-moz-focus-inner {
@@ -230,6 +233,9 @@ form ol li.time label {
 
 .label {
   margin: 5px 0; }
+
+form p {
+  width: 70%; }
 
 /*
   LEVEL ONE

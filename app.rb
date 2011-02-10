@@ -52,36 +52,6 @@ They were quoted the following price: #{@price}"
   end
 end
 
-##admin form for managing the formula
-#get "/formula" do
-  #unless current_user.admin?
-    #flash[:notice] = "You must be logged in to view that page."
-    #redirect "/", 303
-  #else
-    #@formula = Formula.last
-    #haml :formula
-  #end
-#end
-
-#post "/formula" do
-  #unless current_user.admin?
-    #flash[:notice] = "You must be logged in to view that page."
-    #redirect "/", 303
-  #else
-    #formula = Formula.last
-    #@TODO: validate parameters
-    #formula.mileage_cutoff = params[:mileage_cutoff]
-    #formula.price_per_mile = BigDecimal.new(params[:price_per_mile])
-    #formula.price_per_mile_after_cutoff = BigDecimal.new(params[:price_per_mile_after_cutoff])
-    #if formula.save
-      #flash[:success] = "Saved successfully."
-    #else
-      #flash[:failure] = "Error saving the formula. Errors: #{formula.errors}"
-    #end
-    #redirect "/formula", 303
-  #end
-#end
-
 #show an admin form which allows creation of users
 get "/create_user" do
   unless current_user.admin?

@@ -80,6 +80,12 @@
       .label
         = label_tag :price
       = text_field_tag :price, :id => "price", :placeholder => "One billion dollars"
+    %p
+      If a truck's mileage is <em>below</em> the average mileage, then (average_mileage - actual_mileage) * add_per_mile
+      will be <em>added</em> to the base price of the truck.
+    %p
+      If a truck's mileage is <em>above</em> the average mileage, then (actual_mileage - average_mileage) * 
+      deduct_per_mile will be <em>deducted</em> from the base price of the truck.
     .field
       .label
         = label_tag :average_mileage

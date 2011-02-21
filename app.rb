@@ -29,9 +29,10 @@ get "/?" do
         #if we get here it was successful, so send an email
         Pony.mail(
           :to => settings.email_recipient,
+          :cc => settings.other_email_recipients,
           :from => settings.email_sender,
           :subject => "User #{current_user.email} looked up a truck",
-          :body => "Someone lookup up the following truck:
+          :body => "User #{current_user.email} looked up the following truck:
 VIN: #{params[:vin].chomp}
 Miles: #{params[:miles].chomp}
 #{@year.name} #{@model.name} #{@engine.name}.

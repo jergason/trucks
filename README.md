@@ -16,3 +16,16 @@ _deducted_ from the base price of the truck.
 
 The Rakefile has tasks to create the database and fill it with some
 default data. See it for more information.
+
+
+###The VIN String
+The VIN is a 9-digit string that encodes the year, the make model,
+the engine and some other information we don't care about. Truck Pricer
+will decode the VIN to look up the correct price for that engine, model
+and year in the database.
+
+The VIN string is decoded as follows:
+
+1. The year is the 10th digit
+2. The model is the 5th digit
+3. The engine is the 7th digit

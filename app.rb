@@ -6,7 +6,7 @@ require 'truck_pricer'
 require 'bigdecimal'
 
 use Rack::Session::Cookie, :secret => "A1 sauce 1s so good you should use 1t on a11 yr st34ksssss"
-use Rack::Flash
+use Rack::Flash, :sweep => true
 helpers Padrino::Helpers
 helpers TruckPricer::Helpers
 include TruckPricer
@@ -20,11 +20,12 @@ get "/?" do
   else
     if params[:miles] and params[:vin]
       begin
+        flash[:error] = nil
         @year = pricer.year_from_vin(params[:vin].upcase.chomp)
         @engine = pricer.engine_from_vin(params[:vin].upcase.chomp)
         @model = pricer.truck_model_from_vin(params[:vin].upcase.chomp)
 
-        @price = Price.last(:truck_model_id => @model.id, :engine_id => @engine.id, :year_id => @year.id).price_for_miles_and_base_price(params[:miles].chomp.to_i).to_s
+        @price = Price.last(:truck_model_id => @model.id, :engine_id => @engine.id, :year_id => @year.id).price_for_miles_and_base_price(params[:miles].chomp.to_i).to_s("F")
         @price = "#{@price}0" if @price =~ /^\d+\.\d$/
         #if we get here it was successful, so send an email
         #Pony.mail(
@@ -35,13 +36,12 @@ get "/?" do
         #)
       rescue ModelNotFoundException => e
         flash[:error] = "Sorry, we couldn't find anything for your VIN."
-        p env
         puts "#{e.message}"
-        puts "#{e.backtrace}"
       rescue Exception => e
         flash[:error] = "Sorry, some other kind of error occurred: #{e.message}"
-        puts "#{e.message}"
-        puts "#{e.backtrace}"
+        # puts "#{e.message}"
+        pp e.backtrace
+        # puts "#{e.backtrace}"
       end
     end
     haml :root

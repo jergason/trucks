@@ -15,10 +15,16 @@
       if (!cutoff.test($("#mileage_cutoff_field").val())) {
         error += "<em>Error:</em> Mileage cutoff must consist of only digits, and cannot be empty.<br />";
       }
+      if (!cutoff.test($("#second_mileage_cutoff_field").val())) {
+        error += "<em>Error:</em>Second mileage cutoff must consist of only digits, and cannot be empty.<br />";
+      }
       if (!pricePerMile.test($("#add_per_mile_field").val())) {
         error += "<em>Error:</em> Price per mile must begin with a digit followed by a period and two more digits (like this: 0.07)<br />";
       }
       if (!pricePerMile.test($("#deduct_per_mile_field").val())) {
+        error += "<em>Error:</em> Price per mile must begin with a digit followed by a period and two more digits (like this: 0.07)<br />";
+      }
+      if (!pricePerMile.test($("#second_deduct_per_mile_field").val())) {
         error += "<em>Error:</em> Price per mile must begin with a digit followed by a period and two more digits (like this: 0.07)<br />";
       }
 
@@ -86,10 +92,17 @@
     %p
       If a truck's mileage is <em>above</em> the average mileage, then (actual_mileage - average_mileage) * 
       deduct_per_mile will be <em>deducted</em> from the base price of the truck.
+    %p
+      The same applies to the second cutoff field. If the mileage is above the second cutoff field, then (miles above second cutoff - second cutoff) * 
+      second_deduct_per_mile will be deducted from the base price of the truck, along with (second cutoff - average mileage) * deduct_per_mile.
     .field
       .label
         = label_tag :average_mileage
       = text_field_tag :mileage_cutoff, :id => "mileage_cutoff_field", :placeholder => "Mileage cutoff"
+    .field
+      .label
+        = label_tag :second_cutoff
+      = text_field_tag :second_mileage_cutoff, :id => "second_mileage_cutoff_field", :placeholder => "Second mileage cutoff"
     .field
       .label
         = label_tag :add_per_mile
@@ -98,4 +111,8 @@
       .label
         = label_tag :deduct_per_mile
       = text_field_tag :deduct_per_mile, :id => "deduct_per_mile_field", :placeholder => "Deduct per mile"
+    .field
+      .label
+        = label_tag :second_deduct_per_mile
+      = text_field_tag :second_deduct_per_mile, :id => "second_deduct_per_mile_field", :placeholder => "Second deduct per mile"
     = submit_tag "Set price and formula", :id => "price_submit"

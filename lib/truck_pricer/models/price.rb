@@ -14,10 +14,14 @@ module TruckPricer
     include DataMapper::Resource
 
     property :id, Serial, :key => true
-    property :price, Float
+    property :price, Decimal
     property :mileage_cutoff, Integer, :required => true
+    #price to add per mile if it is below the cutoff mileage
     property :price_per_mile, Decimal, :required => true, :scale => 2, :precision => 10
     property :price_per_mile_after_cutoff, Decimal, :required => true, :scale => 2, :precision => 10
+    #TODO : give these sensible defaults?
+    property :second_mileage_cutoff, Integer, :required => true
+    property :price_per_mile_after_second_cutoff, Decimal, :required => true, :scale => 2, :precision => 10
     property :created_at, DateTime
     property :created_on, Date
     property :updated_at, DateTime
@@ -29,9 +33,13 @@ module TruckPricer
 
     #Calculate price for a truck with the given milage
     def price_for_miles_and_base_price(miles)
-      if miles > self.mileage_cutoff
+      #if miles between first and second cutoffs
+      if (miles > self.mileage_cutoff and miles < self.second_mileage_cutoff)
         calculated_price = self.price - ((miles - self.mileage_cutoff) * self.price_per_mile_after_cutoff)
-      else
+      elsif miles > self.second_mileage_cutoff #if mileage greater than second cutoff
+        calculated_price = self.price - ((miles - self.second_mileage_cutoff) * self.price_per_mile_after_second_cutoff) -
+          ((self.second_mileage_cutoff - self.mileage_cutoff) * self.price_per_mile_after_cutoff)
+      else #mileage less than first cutoff, so a truck with less milage has a higher price
         calculated_price = self.price + ((self.mileage_cutoff - miles) * self.price_per_mile)
       end
       return calculated_price > 0.0 ? calculated_price : 0.0

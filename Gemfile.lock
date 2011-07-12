@@ -125,7 +125,7 @@ GEM
     tzinfo (0.3.24)
     url_mount (0.2.1)
       rack
-    yajl-ruby (0.7.9)
+    yajl-ruby (0.8.2)
 
 PLATFORMS
   ruby

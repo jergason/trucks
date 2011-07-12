@@ -89,11 +89,13 @@ get "/price" do
                            :engine_id => params[:engine_id],
                            :year_id => params[:year_id])
       if @price
-        ret = { 
+        ret = {
           :message => "Price for the truck:",
-          :price => @price.price,
+          :price => @price.price.to_s("F"),
           :mileage_cutoff => @price.mileage_cutoff,
           :add_per_mile => @price.price_per_mile.to_s("F"),
+          :second_mileage_cutoff => @price.second_mileage_cutoff,
+          :second_deduct_per_mile => @price.price_per_mile_after_second_cutoff.to_s("F"),
           :deduct_per_mile => @price.price_per_mile_after_cutoff.to_s("F"),
           :error => false }
           ret.to_json
@@ -111,14 +113,10 @@ get "/price" do
 end
 
 post "/price" do
-  puts "inside post /price"
-  puts "*****here is the session: "
-  p session
   unless current_user.admin?
     flash[:notice] = "You must be logged in to view that page."
     redirect "/", 303
   end
-  pp params
   @price = Price.first_or_create(:engine_id => params[:engine_id],
                                  :truck_model_id => params[:truck_model_id],
                                  :year_id => params[:year_id])
@@ -126,6 +124,8 @@ post "/price" do
   @price.mileage_cutoff = params[:mileage_cutoff].chomp
   @price.price_per_mile = BigDecimal.new(params[:add_per_mile].chomp)
   @price.price_per_mile_after_cutoff = BigDecimal.new(params[:deduct_per_mile].chomp)
+  @price.second_mileage_cutoff = params[:second_mileage_cutoff]
+  @price.price_per_mile_after_second_cutoff = BigDecimal.new(params[:second_deduct_per_mile])
   res = @price.save
   if request.xhr?
     if res

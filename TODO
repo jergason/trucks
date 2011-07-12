@@ -1,5 +1,3 @@
-2. Implement email functionality
-
-CHANGE EMAIL ADDRESS TO ROB'S EMAIL ADDRESS!
-
-TEST PRICE LOOKUP AND VIN LOOKUP
+1. Fix decimal formatting issue on price lookup
+2. Test the two cutoffs stuff.
+3. Upload it to git.

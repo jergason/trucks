@@ -10,7 +10,7 @@ gem "dm-migrations"
 gem "dm-aggregates"
 gem "dm-serializer"
 gem "rack-flash"
-gem "sinatra-authentication", :path => "/Users/jergason/Dropbox/sinatra-authentication"#:git => "git://github.com/jergason/sinatra-authentication.git"
+gem "sinatra-authentication", :git => "git://github.com/jergason/sinatra-authentication.git"#:path => "/Users/jergason/Dropbox/sinatra-authentication"
 
 group :test do
   gem "rspec"

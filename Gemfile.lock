@@ -1,5 +1,6 @@
-PATH
-  remote: /Users/jergason/Dropbox/sinatra-authentication
+GIT
+  remote: git://github.com/jergason/sinatra-authentication.git
+  revision: a82d93024e19cc67f3b537096c72a6dc2010b4de
   specs:
     sinatra-authentication (0.4.1)
       dm-core
@@ -124,7 +125,7 @@ GEM
     tzinfo (0.3.24)
     url_mount (0.2.1)
       rack
-    yajl-ruby (0.7.9)
+    yajl-ruby (0.8.2)
 
 PLATFORMS
   ruby

@@ -6,13 +6,18 @@ var TruckPricer = {
     var yearId = $("[name='year_id']").val();
     var price = $("[name='price']").val();
     var mileage_cutoff = $("[name='mileage_cutoff']").val();
+    var second_mileage_cutoff = $("[name='second_mileage_cutoff']").val();
     var add_per_mile = $("[name='add_per_mile']").val();
     var deduct_per_mile = $("[name='deduct_per_mile']").val();
+    var second_deduct_per_mile = $("[name='second_deduct_per_mile']").val();
     if (price === "") {
       price = "0.00";
     }
     if (mileage_cutoff === "") {
       mileage_cutoff = "0";
+    }
+   if (second_mileage_cutoff === "") {
+      second_mileage_cutoff = "0";
     }
     if (add_per_mile === "") {
       add_per_mile = "0.00";
@@ -20,14 +25,20 @@ var TruckPricer = {
     if (deduct_per_mile === "") {
       deduct_per_mile = "0.00";
     }
+    if (second_deduct_per_mile === "") {
+      second_deduct_per_mile = "0.00";
+    }
+
     var request = {
       "engine_id" : engineId,
       "truck_model_id" : modelId,
       "year_id" : yearId,
       "price" : price,
       "mileage_cutoff" : mileage_cutoff,
+      "second_mileage_cutoff" : second_mileage_cutoff,
       "add_per_mile" : add_per_mile,
-      "deduct_per_mile" : deduct_per_mile
+      "deduct_per_mile" : deduct_per_mile,
+      "second_deduct_per_mile": second_deduct_per_mile
     };
     return request;
   },
@@ -39,14 +50,20 @@ var TruckPricer = {
       if (response.error === false) {
         $("[name='price']").val(response.price);
         $("[name='mileage_cutoff']").val(response.mileage_cutoff);
+        $("[name='second_mileage_cutoff']").val(response.second_mileage_cutoff);
         $("[name='add_per_mile']").val(response.add_per_mile);
         $("[name='deduct_per_mile']").val(response.deduct_per_mile);
+        console.error($("[name='second_deduct_per_mile']"));
+        console.error(response);
+        $("[name='second_deduct_per_mile']").val(response.second_deduct_per_mile);
       }
       else {
         $("[name='price']").val("No price yet");
         $("[name='mileage_cutoff']").val("No cutoff yet");
+        $("[name='second_mileage_cutoff']").val("No second cutoff yet");
         $("[name='add_per_mile']").val("No price per mile yet");
-        $("[name='deduct_per_mile']").val("no price per mile after cutoff yet");
+        $("[name='deduct_per_mile']").val("No price per mile after cutoff yet");
+        $("[name='second_deduct_per_mile']").val("No price per mile after second cutoff yet");
       }
       $("#form_message").text(response.message);
       $("#form_message").show();

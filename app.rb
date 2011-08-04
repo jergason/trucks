@@ -6,7 +6,7 @@ require 'truck_pricer'
 require 'bigdecimal'
 
 use Rack::Session::Cookie, :secret => "What good is a secret key if it doesn't have some gibberish@@#AKGHFKAA?"
-use Rack::Flash
+use Rack::Flash, :sweep => true
 helpers Padrino::Helpers
 helpers TruckPricer::Helpers
 include TruckPricer
@@ -20,11 +20,12 @@ get "/?" do
   else
     if params[:miles] and params[:vin]
       begin
+        flash[:error] = nil
         @year = pricer.year_from_vin(params[:vin].upcase.chomp)
         @engine = pricer.engine_from_vin(params[:vin].upcase.chomp)
         @model = pricer.truck_model_from_vin(params[:vin].upcase.chomp)
 
-        @price = Price.last(:truck_model_id => @model.id, :engine_id => @engine.id, :year_id => @year.id).price_for_miles_and_base_price(params[:miles].chomp.to_i).to_s
+        @price = Price.last(:truck_model_id => @model.id, :engine_id => @engine.id, :year_id => @year.id).price_for_miles_and_base_price(params[:miles].chomp.to_i).to_s("F")
         @price = "#{@price}0" if @price =~ /^\d+\.\d$/
         #if we get here it was successful, so send an email
         Pony.mail(
@@ -40,13 +41,12 @@ They were quoted the following price: #{@price}"
         )
       rescue ModelNotFoundException => e
         flash[:error] = "Sorry, we couldn't find anything for your VIN."
-        p env
         puts "#{e.message}"
-        puts "#{e.backtrace}"
       rescue Exception => e
         flash[:error] = "Sorry, some other kind of error occurred: #{e.message}"
-        puts "#{e.message}"
-        puts "#{e.backtrace}"
+        # puts "#{e.message}"
+        pp e.backtrace
+        # puts "#{e.backtrace}"
       end
     end
     haml :root
@@ -94,11 +94,13 @@ get "/price" do
                            :engine_id => params[:engine_id],
                            :year_id => params[:year_id])
       if @price
-        ret = { 
+        ret = {
           :message => "Price for the truck:",
-          :price => @price.price,
+          :price => @price.price.to_s("F"),
           :mileage_cutoff => @price.mileage_cutoff,
           :add_per_mile => @price.price_per_mile.to_s("F"),
+          :second_mileage_cutoff => @price.second_mileage_cutoff,
+          :second_deduct_per_mile => @price.price_per_mile_after_second_cutoff.to_s("F"),
           :deduct_per_mile => @price.price_per_mile_after_cutoff.to_s("F"),
           :error => false }
           ret.to_json
@@ -116,9 +118,6 @@ get "/price" do
 end
 
 post "/price" do
-  puts "inside post /price"
-  puts "*****here is the session: "
-  p session
   unless current_user.admin?
     flash[:notice] = "You must be logged in to view that page."
     redirect "/", 303
@@ -131,6 +130,8 @@ post "/price" do
   @price.mileage_cutoff = params[:mileage_cutoff].chomp
   @price.price_per_mile = BigDecimal.new(params[:add_per_mile].chomp)
   @price.price_per_mile_after_cutoff = BigDecimal.new(params[:deduct_per_mile].chomp)
+  @price.second_mileage_cutoff = params[:second_mileage_cutoff]
+  @price.price_per_mile_after_second_cutoff = BigDecimal.new(params[:second_deduct_per_mile])
   res = @price.save
   if request.xhr?
     if res

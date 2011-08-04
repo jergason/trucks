@@ -10,6 +10,7 @@ var TruckPricer = {
     var add_per_mile = $("[name='add_per_mile']").val();
     var deduct_per_mile = $("[name='deduct_per_mile']").val();
     var second_deduct_per_mile = $("[name='second_deduct_per_mile']").val();
+    var extra_deduct = $("[name='extra_deduct']").val();
     if (price === "") {
       price = "0.00";
     }
@@ -28,6 +29,9 @@ var TruckPricer = {
     if (second_deduct_per_mile === "") {
       second_deduct_per_mile = "0.00";
     }
+    if (extra_deduct === "") {
+      extra_deduct = "0.00";
+    }
 
     var request = {
       "engine_id" : engineId,
@@ -38,7 +42,8 @@ var TruckPricer = {
       "second_mileage_cutoff" : second_mileage_cutoff,
       "add_per_mile" : add_per_mile,
       "deduct_per_mile" : deduct_per_mile,
-      "second_deduct_per_mile": second_deduct_per_mile
+      "second_deduct_per_mile": second_deduct_per_mile,
+      "extra_deduct": extra_deduct
     };
     return request;
   },
@@ -53,9 +58,8 @@ var TruckPricer = {
         $("[name='second_mileage_cutoff']").val(response.second_mileage_cutoff);
         $("[name='add_per_mile']").val(response.add_per_mile);
         $("[name='deduct_per_mile']").val(response.deduct_per_mile);
-        console.error($("[name='second_deduct_per_mile']"));
-        console.error(response);
         $("[name='second_deduct_per_mile']").val(response.second_deduct_per_mile);
+        $("[name='extra_deduct']").val(response.extra_deduct);
       }
       else {
         $("[name='price']").val("No price yet");
@@ -88,5 +92,4 @@ var TruckPricer = {
       }
     });
   }
-
 };

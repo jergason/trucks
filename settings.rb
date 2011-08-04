@@ -6,6 +6,7 @@ configure :test do
 end
 
 configure :development do |config|
+  require 'sinatra/reloader'
   set :db_path, "sqlite://#{File.join(File.dirname(__FILE__), 'db', 'development.db')}"
   config.also_reload "lib/*.rb"
   config.also_reload "lib/truck_pricer/*.rb"

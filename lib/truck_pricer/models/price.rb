@@ -22,6 +22,7 @@ module TruckPricer
     #TODO : give these sensible defaults?
     property :second_mileage_cutoff, Integer, :required => true
     property :price_per_mile_after_second_cutoff, Decimal, :required => true, :scale => 2, :precision => 10
+    property :extra_deduct, Decimal, :required => false, :scale => 2, :precision => 10, :default => 0.0
     property :created_at, DateTime
     property :created_on, Date
     property :updated_at, DateTime
@@ -42,6 +43,8 @@ module TruckPricer
       else #mileage less than first cutoff, so a truck with less milage has a higher price
         calculated_price = self.price + ((self.mileage_cutoff - miles) * self.price_per_mile)
       end
+      #deduct from everything
+      calculated_price = calculated_price - self.extra_deduct
       return calculated_price > 0.0 ? calculated_price : 0.0
     end
   end

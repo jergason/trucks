@@ -33,12 +33,12 @@ namespace :db do
     DataMapper.auto_upgrade!
   end
 
-  desc "Create an admin user. useage: rake db:create_admin [email, password]"
+  desc "Create an admin user. useage: rake db:create_admin[email,password]"
   task :create_admin, :email, :password do |t, args|
     require "bundler"
     Bundler.require(:default, :production)
     require './app.rb'
-    params = { 
+    params = {
       :email => args[:email],
       :password => args[:password],
       :password_confirmation => args[:password],

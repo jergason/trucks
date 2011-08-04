@@ -80,7 +80,7 @@ namespace :db do
                                 :mileage_cutoff => 200000,
                                 :price_per_mile => BigDecimal.new("0.05"),
                                 :price_per_mile_after_cutoff => BigDecimal.new("0.07"),
-                                :price_per_mile_after_second_cutoff => BigDecimal.new("0.09"),
+                                :price_per_mile_if_above_second_cutoff => BigDecimal.new("0.09"),
                                 :second_mileage_cutoff => 250000,
                                 :engine_id => 1,
                                 :truck_model_id => 1,

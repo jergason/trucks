@@ -93,8 +93,8 @@
       If a truck's mileage is <em>above</em> the average mileage, then (actual_mileage - average_mileage) * 
       deduct_per_mile will be <em>deducted</em> from the base price of the truck.
     %p
-      The same applies to the second cutoff field. If the mileage is above the second cutoff field, then (miles above second cutoff - second cutoff) * 
-      second_deduct_per_mile will be deducted from the base price of the truck, along with (second cutoff - average mileage) * deduct_per_mile.
+      If a truck's mileate is <em>above</em> the second mileage cutoff, then (actual mileage - average_mileate) *
+      second_deduct_per_mile will be <em>deducted</em> from the base price of the truck.
     .field
       .label
         = label_tag :average_mileage

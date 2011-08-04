@@ -25,22 +25,27 @@ get "/?" do
         @engine = pricer.engine_from_vin(params[:vin].upcase.chomp)
         @model = pricer.truck_model_from_vin(params[:vin].upcase.chomp)
 
-        @price = Price.last(:truck_model_id => @model.id, :engine_id => @engine.id, :year_id => @year.id).price_for_miles_and_base_price(params[:miles].chomp.to_i).to_s("F")
-        @price = "#{@price}0" if @price =~ /^\d+\.\d$/
-        #if we get here it was successful, so send an email
-        #Pony.mail(
-        #:to => settings.email_recipient,
-        #:from => settings.email_sender,
-        #:subject => "User #{current_user.email} looked up a truck",
-        #:body => "a body"
-        #)
+        @price_model = Price.last(:truck_model_id => @model.id, :engine_id => @engine.id, :year_id => @year.id)
+        if !@price_model.nil?
+          @price = @price_model.price_for_miles_and_base_price(params[:miles].chomp.to_i).to_s("F")
+          @price = "#{@price}0" if @price =~ /^\d+\.\d$/
+            #if we get here it was successful, so send an email
+            #Pony.mail(
+            #:to => settings.email_recipient,
+            #:from => settings.email_sender,
+            #:subject => "User #{current_user.email} looked up a truck",
+            #:body => "a body"
+            #)
+        else
+          flash[:error] = "Sory, we couldn't find anything for your VIN."
+        end
       rescue ModelNotFoundException => e
         flash[:error] = "Sorry, we couldn't find anything for your VIN."
         puts "#{e.message}"
       rescue Exception => e
         flash[:error] = "Sorry, some other kind of error occurred: #{e.message}"
         # puts "#{e.message}"
-        pp e.backtrace
+        # pp e.backtrace
         # puts "#{e.backtrace}"
       end
     end
@@ -95,7 +100,7 @@ get "/price" do
           :mileage_cutoff => @price.mileage_cutoff,
           :add_per_mile => @price.price_per_mile.to_s("F"),
           :second_mileage_cutoff => @price.second_mileage_cutoff,
-          :second_deduct_per_mile => @price.price_per_mile_after_second_cutoff.to_s("F"),
+          :second_deduct_per_mile => @price.price_per_mile_if_above_second_cutoff.to_s("F"),
           :deduct_per_mile => @price.price_per_mile_after_cutoff.to_s("F"),
           :extra_deduct => @price.extra_deduct.to_s("F"),
           :error => false }
@@ -126,7 +131,7 @@ post "/price" do
   @price.price_per_mile = BigDecimal.new(params[:add_per_mile].chomp)
   @price.price_per_mile_after_cutoff = BigDecimal.new(params[:deduct_per_mile].chomp)
   @price.second_mileage_cutoff = params[:second_mileage_cutoff]
-  @price.price_per_mile_after_second_cutoff = BigDecimal.new(params[:second_deduct_per_mile])
+  @price.price_per_mile_if_above_second_cutoff = BigDecimal.new(params[:second_deduct_per_mile])
   @price.extra_deduct = BigDecimal.new(params.fetch('extra_deduct', '0.0'))
   res = @price.save
   if request.xhr?

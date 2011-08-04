@@ -97,6 +97,7 @@ get "/price" do
           :second_mileage_cutoff => @price.second_mileage_cutoff,
           :second_deduct_per_mile => @price.price_per_mile_after_second_cutoff.to_s("F"),
           :deduct_per_mile => @price.price_per_mile_after_cutoff.to_s("F"),
+          :extra_deduct => @price.extra_deduct.to_s("F"),
           :error => false }
           ret.to_json
       else
@@ -126,6 +127,7 @@ post "/price" do
   @price.price_per_mile_after_cutoff = BigDecimal.new(params[:deduct_per_mile].chomp)
   @price.second_mileage_cutoff = params[:second_mileage_cutoff]
   @price.price_per_mile_after_second_cutoff = BigDecimal.new(params[:second_deduct_per_mile])
+  @price.extra_deduct = BigDecimal.new(params.fetch('extra_deduct', '0.0'))
   res = @price.save
   if request.xhr?
     if res

@@ -29,3 +29,11 @@ The VIN string is decoded as follows:
 1. The year is the 10th digit
 2. The model is the 5th digit
 3. The engine is the 7th digit
+
+
+##Confusion About Price Form Submission
+Due to a lack of smart in my brain I have done the price creation form
+submission through AJAX. As such, it is not enough to just update the
+form and the server-side code to handle it. You also have to tweak the
+stuff in scripts.js when you add or change fields. Yup, that was not a
+smart thing to to. Live and learn.

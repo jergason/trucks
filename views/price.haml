@@ -115,4 +115,10 @@
       .label
         = label_tag :second_deduct_per_mile
       = text_field_tag :second_deduct_per_mile, :id => "second_deduct_per_mile_field", :placeholder => "Second deduct per mile"
+    .field
+      %p The Extra deduct field will deduct the given amount from the final calculated price.
+      .label
+        = label_tag :extra_deduct
+      = text_field_tag :extra_deduct, :id => "extra_deduct", :placeholder => "Extra deduction"
+
     = submit_tag "Set price and formula", :id => "price_submit"

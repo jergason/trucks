@@ -9,8 +9,8 @@ gem "dm-core"
 gem "dm-migrations"
 gem "dm-aggregates"
 gem "dm-serializer"
-gem "sinatra-authentication", :git => "git://github.com/jergason/sinatra-authentication.git"#:path => "/Users/jergason/Dropbox/sinatra-authentication"
 gem "rack-flash"
+gem "sinatra-authentication", :git => "git://github.com/jergason/sinatra-authentication.git"#:path => "/Users/jergason/Dropbox/sinatra-authentication"
 
 group :test do
   gem "rspec"

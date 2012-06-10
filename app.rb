@@ -5,7 +5,7 @@ require 'settings'
 require 'truck_pricer'
 require 'bigdecimal'
 
-use Rack::Session::Cookie, :secret => "What good is a secret key if it doesn't have some gibberish@@#AKGHFKAA?"
+use Rack::Session::Cookie, :secret => "A1 sauce 1s so good you should use 1t on a11 yr st34ksssss"
 use Rack::Flash, :sweep => true
 helpers Padrino::Helpers
 helpers TruckPricer::Helpers
@@ -44,9 +44,9 @@ They were quoted the following price: #{@price}"
         puts "#{e.message}"
       rescue Exception => e
         flash[:error] = "Sorry, some other kind of error occurred: #{e.message}"
-        # puts "#{e.message}"
+        puts "#{e.message}"
         pp e.backtrace
-        # puts "#{e.backtrace}"
+        puts "#{e.backtrace}"
       end
     end
     haml :root
@@ -123,7 +123,6 @@ post "/price" do
     flash[:notice] = "You must be logged in to view that page."
     redirect "/", 303
   end
-  p params
   @price = Price.first_or_create(:engine_id => params[:engine_id],
                                  :truck_model_id => params[:truck_model_id],
                                  :year_id => params[:year_id])

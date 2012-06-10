@@ -17,22 +17,25 @@ configure :development do |config|
   set :email_password, ENV["SENDGRID_PASSWORD"]
   set :email_domain, "localhost.localdomain"
   set :email_smtp_address, "smtp.gmail.com"
+  set :email_port, "733"
 end
 
 configure :production do |config|
-  set :email_recipient, "jergason@gmail.com"
+  set :email_recipient, "rbeeson@warnertc.com"
+  set :other_email_recipients, ["bwarner1@warnertc.com", "sbrown@warnertc.com"]
   set :email_username, ENV["SENDGRID_USERNAME"]
   set :email_password, ENV["SENDGRID_PASSWORD"]
   set :email_domain, ENV["SENDGRID_DOMAIN"]
-  set :email_smtp_address, ENV["SMTP_ADDRESS"]
+  set :email_smtp_address, "smtp.sendgrid.net"
+  set :email_port, "25"
 end
 
 configure :production, :development, :test do
-  set :email_port, "25"
   set :email_sender, "noreply@early_trade_valuation.com"
 end
 
 set :environment, :development
+DataMapper::Logger.new($stdout, :default)
 Pony.options = {
   :port => settings.email_port,
   :via => :smtp,
@@ -45,5 +48,4 @@ Pony.options = {
     :authentication => :plain
   }
 }
-#DataMapper::Logger.new($stdout, :default)
 DataMapper.setup(:default, ENV['DATABASE_URL'] || settings.db_path)

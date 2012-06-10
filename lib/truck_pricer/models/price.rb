@@ -37,7 +37,8 @@ module TruckPricer
       #if miles between first and second cutoffs
       if (miles > self.mileage_cutoff and miles < self.second_mileage_cutoff)
         calculated_price = self.price - ((miles - self.mileage_cutoff) * self.price_per_mile_after_cutoff)
-      elsif miles > self.second_mileage_cutoff #if mileage greater than second cutoff
+      #mileage is greater than the second_mileage_cutoff
+      elsif miles > self.second_mileage_cutoff
         calculated_price = self.price - ((miles - self.second_mileage_cutoff) * self.price_per_mile_after_second_cutoff) -
           ((self.second_mileage_cutoff - self.mileage_cutoff) * self.price_per_mile_after_cutoff)
       else #mileage less than first cutoff, so a truck with less milage has a higher price
@@ -46,6 +47,10 @@ module TruckPricer
       #deduct from everything
       calculated_price = calculated_price - self.extra_deduct
       return calculated_price > 0.0 ? calculated_price : 0.0
+    end
+
+    def to_s
+      return "<TruckPricer::Price id: #{self.id}>"
     end
   end
 end

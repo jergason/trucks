@@ -11,6 +11,10 @@ module TruckPricer
     property :updated_on, Date
 
     has n, :prices
+
+    def to_s
+      return "<TruckPricer::TruckModel id: #{self.id} name: #{self.name}>"
+    end
   end
 end
 

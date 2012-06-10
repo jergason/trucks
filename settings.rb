@@ -34,7 +34,7 @@ configure :production, :development, :test do
   set :email_sender, "noreply@early_trade_valuation.com"
 end
 
-set :environment, :production
+set :environment, :development
 DataMapper::Logger.new($stdout, :default)
 Pony.options = {
   :port => settings.email_port,
